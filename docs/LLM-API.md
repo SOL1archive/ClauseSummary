@@ -1,7 +1,4 @@
-# ClauseSummary
-
-## API
-### Clova(`clova_api`): `ClovaSummary`
+# Clova(`clova_api`): `ClovaSummary`
 `user.yaml` required in the `clova_api` directory.
 - Required Params
     - URL
@@ -11,7 +8,7 @@
 
 - 
 
-### ChatGPT(`chat_gpt`): `ChatGPTSummary`
+# ChatGPT(`chat_gpt`): `ChatGPTSummary`
 `user.yaml` required in the `chat_gpt` directory.
 - Required Params
     - EMAIL
@@ -20,4 +17,3 @@
 - Optional
     - MAX-OUT-LEN
     - PROMPT
-    

@@ -21,7 +21,7 @@ class ChatGPTSummary:
                                 'model': self.model,
         })
 
-        self.max_output_len = self.user_data['MAX-OUT-LEN']
+        self.max_output_len = self.user_data.get('MAX-OUT-LEN', default=200)
         self.prompt = self.user_data.get('PROMPT', default=f'Read the provided documents. Summarize in {self.max_output_len}. \n\n')
 
     def summarize(self, text: str, title=False, options=None) -> str:

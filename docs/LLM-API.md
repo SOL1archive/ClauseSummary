@@ -6,7 +6,8 @@
     - API-KEY
     - Options
 
-- 
+- `summarize(text: str, title=False, options=None) -> str`
+- `set_options(**kwarg)`
 
 # ChatGPT(`chat_gpt`): `ChatGPTSummary`
 `user.yaml` required in the `chat_gpt` directory.
@@ -17,3 +18,5 @@
 - Optional
     - MAX-OUT-LEN
     - PROMPT
+
+- `summarize(text: str, title=False, options=None) -> str`

@@ -34,4 +34,3 @@ class ChatGPTSummary:
             output.append(data['message'])
 
         return '\n'.join(output)
-    

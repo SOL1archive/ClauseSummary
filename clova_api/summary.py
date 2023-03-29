@@ -11,10 +11,15 @@ class ClovaSummary:
         with open(self.user_yaml, 'r') as f:
             self.user_data = yaml.parse(f)
 
+        default_option = {
+            'language': 'ko',
+            'model': 'general'
+        }
+
         self.url = self.user_data['URL']
         self.api_key_id = self.user_data['API-KEY-ID']
         self.api_key = self.user_data['API-KEY']
-        self.options = self.user_data['Options']
+        self.options = self.user_data.get('Options', default=default_option)
 
     def summarize(self, text: str, title=None, options=None) -> str:
         '''
@@ -30,6 +35,7 @@ class ClovaSummary:
 
         data = dict()
         data['content'] = text
+        data['option'] = options
         if title is not None:
             data['title'] = title
 

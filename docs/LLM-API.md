@@ -6,7 +6,7 @@
     - API-KEY
     - Options
 
-- `summarize(text: str, title=False, options=None) -> str`
+- `summarize(text: str, title=None, options=None) -> str`
 - `set_options(**kwarg)`
 
 # ChatGPT(`chat_gpt`): `ChatGPTSummary`
@@ -19,4 +19,4 @@
     - MAX-OUT-LEN
     - PROMPT
 
-- `summarize(text: str, title=False, options=None) -> str`
+- `summarize(text: str, title=None, options=None) -> str`

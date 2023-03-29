@@ -16,7 +16,7 @@ class ClovaSummary:
         self.api_key = self.user_data['API-KEY']
         self.options = self.user_data['Options']
 
-    def summarize(self, text: str, title=False, options=None) -> str:
+    def summarize(self, text: str, title=None, options=None) -> str:
         '''
         title -- False or str
         '''
@@ -30,7 +30,7 @@ class ClovaSummary:
 
         data = dict()
         data['content'] = text
-        if title:
+        if title is not None:
             data['title'] = title
 
         response = requests.get(

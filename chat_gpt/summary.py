@@ -24,10 +24,10 @@ class ChatGPTSummary:
         self.max_output_len = self.user_data.get('MAX-OUT-LEN', default=200)
         self.prompt = self.user_data.get('PROMPT', default=f'Read the provided documents. Summarize in {self.max_output_len}. \n\n')
 
-    def summarize(self, text: str, title=False, options=None) -> str:
+    def summarize(self, text: str, title=None, options=None) -> str:
         output = []
         data_dict = self.chatbot.ask(
-            self.prompt + title if title else '' + text
+            self.prompt + title if title is not None else '' + text
             )
         
         for data in data_dict:

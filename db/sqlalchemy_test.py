@@ -7,10 +7,15 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 import datetime
 import pymysql
+import yaml
 
 # DB 연결
 from sqlalchemy import create_engine
-engine = create_engine('mysql+pymysql://tosan:tosan@223.130.131.206:3306/tosan')
+with open("db.yaml", "r") as f:
+    credentials = yaml.safe_load(f)
+db_url = f"mysql+pymysql://{credentials['user']}:{credentials['password']}@{credentials['host']}:{credentials['port']}/{credentials['database']}"
+engine = create_engine(db_url)
+
 
 # engine 종속적 session 정의
 Session = sessionmaker(engine)

@@ -1,0 +1,5 @@
+host: "223.130.131.206"
+port: "3306"
+user: "tosan"
+password: "tosan"
+database: "tosan"

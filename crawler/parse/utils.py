@@ -79,3 +79,6 @@ def whitespace_match(source_text: str, target_text: str):
 
 def isin(source_text:str, target_text: str):
     return len(whitespace_match(source_text, target_text)) != 0
+
+def is_pdf(filename: str):
+    return filename.endswith('.pdf')

@@ -8,10 +8,11 @@ roman_index_re = r'^(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)$'
 index_re_lt = [
     num_index_re, kor_index_re, eng_index_re, roman_index_re
 ]
+white_space_re = r'(\s*)'
 
 url_re = r'(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/'
 
-def find_header(text: str, symbol: str) -> list(int):
+def find_header(text: str, symbol: str):
     idx_lt = []
 
     for idx, line in enumerate(text.splitlines()):
@@ -69,3 +70,12 @@ def get_body(file, upper_limit, lower_limit) -> list:
         )
     
     return pages
+
+def whitespace_match(source_text: str, target_text: str):
+    target_text_re = white_space_re.join(list(target_text))
+    match_lt = re.findall(target_text_re, source_text)
+
+    return match_lt
+
+def isin(source_text:str, target_text: str):
+    return len(whitespace_match(source_text, target_text)) != 0

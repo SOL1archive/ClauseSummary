@@ -5,7 +5,7 @@ def get_pdf_pages(file):
     with open(file, 'rb') as f:
         pdf_reader = PyPDF2.PdfReader(f)
 
-    return list(pdf_reader.pages)
+    return [page.extract_text() for page in pdf_reader.pages]
 
 def split_to_unit(full_doc: list):
     with open('./crawler/parse/index.csv', 'r') as f:

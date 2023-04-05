@@ -6,8 +6,8 @@ import utils
 import db.clause
 
 if __name__ == '__main__':
-    yaml_path = pathlib.Path(__file__).parent.joinpath('target.yaml')
-    with open(yaml_path, 'r') as f:
+    csv_path = pathlib.Path(__file__).parent.joinpath('target_dirs.csv')
+    with open(csv_path, 'r') as f:
         target_dirs = [pathlib.Path(str_path) for str_path in f.readlines()]
     
     for dir in target_dirs:

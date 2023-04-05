@@ -1,31 +1,14 @@
-#pip install pymysql
-#pip install sqlalchemy
-#required
+import datetime
+import yaml
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
-import datetime
-import pymysql
-import yaml
-
-# DB 연결
 from sqlalchemy import create_engine
-with open("db.yaml", "r") as f:
-    credentials = yaml.safe_load(f)
-db_url = f"mysql+pymysql://{credentials['user']}:{credentials['password']}@{credentials['host']}:{credentials['port']}/{credentials['database']}"
-engine = create_engine(db_url)
-
-
-# engine 종속적 session 정의
-Session = sessionmaker(engine)
-session = Session()
+import pymysql
 
 # Mapping, 상속 클래스들을 자동으로 인지하고 매핑
 Base = declarative_base()
-
-# 테이블 생성
-
 
 class Data(Base):
     __tablename__ = 'data'  # data 테이블과 매핑된다.
@@ -49,8 +32,24 @@ class Data(Base):
    # def __repr__(self):
    #     return 'user_id : %s, user_name : %s, profile_url : %s' % (self.user_id, self.user_name, self.profile_url)
 
-    
-test = Data(123456, "2023-04-04 20:00:00", 'hj', 'test', 'for test 2', 1)
+class DBConnect:
+    def __init__(self) -> None:
+        with open("db.yaml", "r") as f:
+            credentials = yaml.safe_load(f)
+        self.db_url = f"mysql+pymysql://{credentials['user']}:{credentials['password']}@{credentials['host']}:{credentials['port']}/{credentials['database']}"
+        self.engine = create_engine(self.db_url)
 
-session.add(test)
-session.commit()
+        # engine 종속적 session 정의
+        self.Session = sessionmaker(self.engine)
+        self.session = self.Session()
+    
+    def add(self, *argv, **kwarg):
+        row = Data(*argv, **kwarg)
+        self.session.add(row)
+
+    def commit(self):
+        self.session.commit()
+
+#test = Data(123456, "2023-04-04 20:00:00", 'hj', 'test', 'for test 2', 1)
+
+

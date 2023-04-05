@@ -6,11 +6,14 @@ import utils
 from db.clause import *
 
 if __name__ == '__main__':
+    # DBConnect 객체 생성
     connect = DBConnect()
+    # 확인해야하는 디랙토리 리스트를 불러옴
     csv_path = pathlib.Path(__file__).parent.joinpath('target_dirs.csv')
     with open(csv_path, 'r') as f:
         target_dirs = [pathlib.Path(str_path) for str_path in f.readlines()]
     
+    # 각 파일에 대해 처리함
     for dir in target_dirs:
         os.chdir(dir)
 

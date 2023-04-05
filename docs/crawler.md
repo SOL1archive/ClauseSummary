@@ -1,5 +1,6 @@
 
-# Parser Flow
+# Parser
+## Parser pseudo code
 1. 목차 있음 -> 각 단위로 분리(spilt)
     1. 각 목차로 분리한 것들에 대해
         1. 목차 있음 -> 해당 페이지 지우기
@@ -11,9 +12,9 @@
 2. 각 단위 concat
 
 ## 목차 분리시 자료 구조
-[목차 단위][페이지]
+`[목차 단위][페이지]`
 
-## etc.
+## Assumed Text Format
 if '목' in
 <보통>
 제1조 ...

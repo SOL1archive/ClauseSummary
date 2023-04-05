@@ -3,7 +3,7 @@ import pathlib
 
 import unit_split
 import utils
-import db.sqlalchemy_test
+import db.clause
 
 if __name__ == '__main__':
     yaml_path = pathlib.Path(__file__).parent.joinpath('target.yaml')

@@ -3,9 +3,10 @@ import pathlib
 
 import unit_split
 import utils
-import db.clause
+from db.clause import *
 
 if __name__ == '__main__':
+    connect = DBConnect()
     csv_path = pathlib.Path(__file__).parent.joinpath('target_dirs.csv')
     with open(csv_path, 'r') as f:
         target_dirs = [pathlib.Path(str_path) for str_path in f.readlines()]
@@ -21,3 +22,6 @@ if __name__ == '__main__':
                 # TODO: Erase Index Pages
 
             # TODO: DB Updates
+            connect.add()
+
+    connect.commit()

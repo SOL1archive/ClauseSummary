@@ -49,7 +49,3 @@ class DBConnect:
 
     def commit(self):
         self.session.commit()
-
-#test = Data(123456, "2023-04-04 20:00:00", 'hj', 'test', 'for test 2', 1)
-
-

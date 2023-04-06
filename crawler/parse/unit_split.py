@@ -1,4 +1,5 @@
 import PyPDF2
+import pandas as pd
 from utils import *
 
 # pdf의 모든 페이지를 불러옴
@@ -22,7 +23,8 @@ def split_to_unit(full_doc: list):
             if isin(page, index_name):
                 index_pages.append(i)
                 break
-    
+
+    index_pages.append(len(full_doc))
     result_doc = []
     for start, end in zip(index_pages, index_pages[1:]):
         result_doc.append(

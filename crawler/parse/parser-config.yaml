@@ -1,5 +1,6 @@
-- Local: True
+- Local: False
 - FTP:
-  - host: _
-  - user: _
+  - host: "...___"
+  - user: ""
   - password: _
+  - dir: "tosan/"

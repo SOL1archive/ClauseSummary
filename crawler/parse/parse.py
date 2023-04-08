@@ -4,6 +4,7 @@ import ftplib
 
 import unit_split
 import strip
+import clause_division as cd
 import utils
 from db.clause import *
 
@@ -28,7 +29,7 @@ if __name__ == '__main__':
             if utils.is_pdf(file):
                 pages = unit_split.get_pdf_pages(file)
                 page_units = unit_split.split_to_unit(pages)
-                clauses = strip.strip(page_units)
+                clauses = cd.articles2clauses(page_units)
 
                 file_name_split = file[:-4].split('-')
                 ticker = file_name_split[0]

@@ -5,7 +5,6 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-import pymysql
 
 # Mapping, 상속 클래스들을 자동으로 인지하고 매핑
 Base = declarative_base()

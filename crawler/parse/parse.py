@@ -28,8 +28,6 @@ if __name__ == '__main__':
             if utils.is_pdf(file):
                 pages = unit_split.get_pdf_pages(file)
                 page_units = unit_split.split_to_unit(pages)
-
-                # TODO: Erase Index Pages
                 clauses = strip.strip(page_units)
 
                 file_name_split = file[:-4].split('-')

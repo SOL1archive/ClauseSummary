@@ -34,7 +34,7 @@ class Data(Base):
 
 class DBConnect:
     def __init__(self) -> None:
-        with open("db.yaml", "r") as f:
+        with open("./db.yaml", "r") as f:
             credentials = yaml.safe_load(f)
         self.db_url = f"mysql+pymysql://{credentials['user']}:{credentials['password']}@{credentials['host']}:{credentials['port']}/{credentials['database']}"
         self.engine = create_engine(self.db_url)

@@ -1,4 +1,4 @@
-import datetime
+import pathlib
 import yaml
 
 from sqlalchemy import Column, Integer, String
@@ -33,7 +33,8 @@ class Data(Base):
 
 class DBConnect:
     def __init__(self) -> None:
-        with open("db.yaml", "r") as f:
+        db_config_path = pathlib.Path(__file__).parent.joinpath('db.yaml')
+        with open(db_config_path, "r") as f:
             credentials = yaml.safe_load(f)
         self.db_url = f"mysql+pymysql://{credentials['user']}:{credentials['password']}@{credentials['host']}:{credentials['port']}/{credentials['database']}"
         self.engine = create_engine(self.db_url)

@@ -22,7 +22,7 @@ if __name__ == '__main__':
             target_dirs = [pathlib.Path(str_path) for str_path in f.readlines()]
     
     # FTP 접속
-    ftp = ftplib.FTP(config['FTP']['host'], config['FTP']['user'], config['FTP']['password'])
+    ftp = ftplib.FTP(config['host'], config['user'], config['password'])
 
     # 각 파일에 대해 처리함
     for dir in target_dirs:

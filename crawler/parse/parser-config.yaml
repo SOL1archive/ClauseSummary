@@ -1,5 +1,3 @@
-- Local: False
-- FTP:
-  - host: "...___"
-  - user: ""
-  - password: _
+- host: "...___"
+- user: ""
+- password: _

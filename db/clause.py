@@ -21,7 +21,7 @@ class Data(Base):
     product = mapped_column(String, nullable=False)
     sub_title = mapped_column(String, nullable=False)
     content = mapped_column(String, nullable=False)
-    doc_no = mapped_column(Integer, nullable=False)
+    doc_no = mapped_column(String, nullable=False)
     row_no = mapped_column(Integer, nullable=False, primary_key=True)
     
     def __init__(self, ticker, date, product, sub_title, content, doc_no):
@@ -32,6 +32,7 @@ class Data(Base):
         self.content = content
         self.doc_no = doc_no
     #    self.row_no = row_no
+    #   row_no is annotated due to SQL server side auto-increment setting, so don't un-annotate.
     
    # def __repr__(self):
    #     return 'user_id : %s, user_name : %s, profile_url : %s' % (self.user_id, self.user_name, self.profile_url)

@@ -17,7 +17,7 @@ class Base(DeclarativeBase):
 class Data(Base):
     __tablename__ = 'data'  # data 테이블과 매핑된다.
     ticker = mapped_column(String, nullable=False)
-    date = mapped_column(DateTime, nullable=False)
+    date = mapped_column(String, nullable=False)
     product = mapped_column(String, nullable=False)
     sub_title = mapped_column(String, nullable=False)
     content = mapped_column(String, nullable=False)

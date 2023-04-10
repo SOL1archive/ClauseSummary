@@ -1,7 +1,7 @@
 import pathlib
 import yaml
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -12,7 +12,7 @@ Base = declarative_base()
 class Data(Base):
     __tablename__ = 'data'  # data 테이블과 매핑된다.
     ticker = Column(String, nullable=False)
-    date = Column(String, nullable=False)
+    date = Column(DateTime, nullable=False)
     product = Column(String, nullable=False)
     sub_title = Column(String, nullable=False)
     content = Column(String, nullable=False)

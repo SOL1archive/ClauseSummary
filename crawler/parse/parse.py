@@ -2,7 +2,7 @@ import sys
 import os
 import pathlib
 import ftplib
-os.path.dirname(os.path.abspath(os.path.dirname('../../db')))
+sys.path.append('../../')
 
 import unit_split
 import strip

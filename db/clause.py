@@ -11,7 +11,7 @@ Base = declarative_base()
 
 class Data(Base):
     __tablename__ = 'data'  # data 테이블과 매핑된다.
-    ticker = Column(Integer, nullable=False)
+    ticker = Column(String, nullable=False)
     date = Column(String, nullable=False)
     product = Column(String, nullable=False)
     sub_title = Column(String, nullable=False)

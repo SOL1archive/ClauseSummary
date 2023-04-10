@@ -1,3 +1,14 @@
+# Data: DB
+| Field     | Type                     | Null | Key | Default | Extra          |
+|-----------|--------------------------|------|-----|---------|----------------|
+| ticker    | text                     | NO   |     | NULL    |                |
+| date      | datetime                 | NO   |     | NULL    |                |
+| product   | text                     | NO   |     | NULL    |                |
+| sub_title | text                     | NO   |     | NULL    |                |
+| content   | text                     | NO   |     | NULL    |                |
+| doc_no    | int(7) unsigned zerofill | NO   |     | NULL    |                |
+| row_no    | int(7) unsigned zerofill | NO   | PRI | NULL    | auto_increment |
+
 # Data: ORM
 
 |Column|Type|Description|Note|

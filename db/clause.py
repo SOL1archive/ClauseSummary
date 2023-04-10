@@ -2,22 +2,27 @@ import pathlib
 import yaml
 
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 # Mapping, 상속 클래스들을 자동으로 인지하고 매핑
-Base = declarative_base()
+class Base(DeclarativeBase):
+    __abstract__ = True
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({', '.join(f'{k}={v}' for k, v in self.__dict__.items())})"
 
 class Data(Base):
     __tablename__ = 'data'  # data 테이블과 매핑된다.
-    ticker = Column(String, nullable=False)
-    date = Column(DateTime, nullable=False)
-    product = Column(String, nullable=False)
-    sub_title = Column(String, nullable=False)
-    content = Column(String, nullable=False)
-    doc_no = Column(Integer, nullable=False)
-    row_no = Column(Integer, nullable=False, primary_key=True)
+    ticker = mapped_column(String, nullable=False)
+    date = mapped_column(DateTime, nullable=False)
+    product = mapped_column(String, nullable=False)
+    sub_title = mapped_column(String, nullable=False)
+    content = mapped_column(String, nullable=False)
+    doc_no = mapped_column(Integer, nullable=False)
+    row_no = mapped_column(Integer, nullable=False, primary_key=True)
     
     def __init__(self, ticker, date, product, sub_title, content, doc_no):
         self.ticker = ticker

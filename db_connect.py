@@ -10,7 +10,7 @@ if __name__ == '__main__':
     connect = DBConnect()
 
     for i in range(1,11):
-        connect.add('str(i)',\
+        connect.add(str(i),\
                 f'2021-01-{i:02}',\
                 f'product{i}',\
                 f'sub_title{i}',\

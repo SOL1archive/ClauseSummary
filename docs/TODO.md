@@ -1,5 +1,18 @@
 # Crawler
 - FTP 서버 연결 구현
+- 파일 계층 리스트 기입
+
+# DB
+- Human Feedback / Training을 위한 `sqlalchemy` 쿼리문 작성
+
+# Data & RLHF
+- `chat_gpt` 혹은 `clova_api`를 이용한 요약 코드 작성(쿼리문 작성 선행)
+- RLHF를 위한 가벼운 CLI 혹은 챗봇 기반 인터페이스 개발
+
+# Training
+- Main Model(Summarization Model) 학습 코드 작성
+- Evaluation Model 학습 코드 작성
+- Reinforcement Learning 코드 작성
 
 # 논의사항
 - 법 조항 데이터 사용 여부

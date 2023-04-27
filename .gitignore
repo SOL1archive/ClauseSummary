@@ -130,4 +130,5 @@ dmypy.json
 
 # Custom
 user.yaml
+discord-token.yaml
 .idea/

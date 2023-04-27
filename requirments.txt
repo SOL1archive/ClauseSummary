@@ -4,3 +4,4 @@ beautifulsoup4==4.11.1
 PyPDF2==3.0.1
 PyMySQL==1.0.2
 SQLAlchemy==2.0.3
+discord.py==2.2.2

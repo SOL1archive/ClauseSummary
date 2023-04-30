@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sqlalchemy import select
+from sqlalchemy import select, Connection, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 
 from clause import Data, DBConnect

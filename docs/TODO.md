@@ -5,6 +5,7 @@
 # DB
 - Human Feedback / Training을 위한 `sqlalchemy` 쿼리문 작성
     - [Tips](https://soogoonsoogoonpythonists.github.io/sqlalchemy-for-pythonist/tutorial/)
+- Human Feedback & Summarization DB 생성
 
 # Data & RLHF
 - `chat_gpt` 혹은 `clova_api`를 이용한 요약 코드 작성(쿼리문 작성 선행)

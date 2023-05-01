@@ -11,6 +11,7 @@ import clause_division as cd
 import utils
 from db.clause import *
 
+# 문서 하나를 파싱함
 def parse_clauses(file):
     pages = unit_split.get_pdf_pages(file)
     page_units = unit_split.split_to_unit(pages)
@@ -27,7 +28,7 @@ def parse_clauses(file):
 
         yield (ticker, date, product, sub_title, contents, doc_no)
 
-if __name__ == '__main__':
+def main():
     connect = DBConnect()
     yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
     with open(yaml_path, 'r') as f:
@@ -51,3 +52,6 @@ if __name__ == '__main__':
     
     ftp.quit()
     connect.commit()
+
+if __name__ == '__main__':
+    main()

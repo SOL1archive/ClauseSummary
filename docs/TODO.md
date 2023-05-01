@@ -1,20 +1,26 @@
 # Crawler
-- FTP 서버 연결 구현
-- 파일 계층 리스트 기입
+- [x] FTP 서버 연결 구현
+- [ ] 파일 계층 리스트 기입
+- [ ] 테스트 코드 작성
+- [ ] 테스트
 
 # DB
-- Human Feedback / Training을 위한 `sqlalchemy` 쿼리문 작성
+- [ ] Human Feedback / Training을 위한 `sqlalchemy` 쿼리문 작성
     - [Tips](https://soogoonsoogoonpythonists.github.io/sqlalchemy-for-pythonist/tutorial/)
-- Human Feedback & Summarization DB 생성
+- [ ] Human Feedback & Summarization DB 생성
 
 # Data & RLHF
-- `chat_gpt` 혹은 `clova_api`를 이용한 요약 코드 작성(쿼리문 작성 선행)
-- RLHF를 위한 가벼운 CLI 혹은 챗봇 기반 인터페이스 개발
+- [ ] `chat_gpt` 혹은 `clova_api`를 이용한 요약 코드 작성(쿼리문 작성 선행)
+- [ ] RLHF를 위한 가벼운 챗봇 기반 인터페이스 개발
+    - [ ] 챗봇 플랫폼 결정
+    - [ ] API 문서 여부 확인
+    - [ ] 입출력 구현
+    - [ ] DB 구현
 
 # Training
-- Main Model(Summarization Model) 학습 코드 작성
-- Evaluation Model 학습 코드 작성
-- Reinforcement Learning 코드 작성
+- [ ] Main Model(Summarization Model) 학습 코드 작성
+- [ ] Evaluation Model 학습 코드 작성
+- [ ] Reinforcement Learning 코드 작성
 
 # 논의사항
 - 법 조항 데이터 사용 여부

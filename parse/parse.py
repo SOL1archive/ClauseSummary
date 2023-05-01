@@ -11,6 +11,22 @@ import clause_division as cd
 import utils
 from db.clause import *
 
+def parse_clauses(file):
+    pages = unit_split.get_pdf_pages(file)
+    page_units = unit_split.split_to_unit(pages)
+    clauses = cd.articles2clauses(page_units)
+    
+    file_name_split = file[:-4].split('-')
+    ticker = file_name_split[0]
+    product = file_name_split[1]
+    doc_no = int(file_name_split[2])
+    for i, clause in enumerate(clauses):
+        sub_title = '일반조항' if i == 0 else f'부칙{i}'
+        contents = '\n'.join(clause)
+        date = datetime.datetime.now().strftime('%Y-%m-%d')
+
+        yield (ticker, date, product, sub_title, contents, doc_no)
+
 if __name__ == '__main__':
     connect = DBConnect()
     yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
@@ -30,19 +46,7 @@ if __name__ == '__main__':
 
         for file in ftp.nlst():
             if utils.is_pdf(file):
-                pages = unit_split.get_pdf_pages(file)
-                page_units = unit_split.split_to_unit(pages)
-                clauses = cd.articles2clauses(page_units)
-
-                file_name_split = file[:-4].split('-')
-                ticker = file_name_split[0]
-                product = file_name_split[1]
-                doc_no = int(file_name_split[2])
-                for i, clause in enumerate(clauses):
-                    sub_title = '일반조항' if i == 0 else f'부칙{i}'
-                    contents = '\n'.join(clause)
-                    date = datetime.datetime.now().strftime('%Y-%m-%d')
-
+                for (ticker, date, product, sub_title, contents, doc_no) in parse_clauses(file):
                     connect.add(ticker, date, product, sub_title, contents, doc_no)
     
     ftp.quit()

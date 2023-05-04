@@ -132,4 +132,5 @@ dmypy.json
 user.yaml
 discord-token.yaml
 .idea/
-test_code/*.pdf
+*.pdf
+!docs/*.pdf

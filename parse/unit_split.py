@@ -1,19 +1,41 @@
+import os
+
 import PyPDF2
 import pandas as pd
 from utils import *
 
 # pdf의 모든 페이지를 불러옴
 def get_pdf_pages(file):
-    with open(file, 'rb') as f:
-        pdf_reader = PyPDF2.PdfReader(f)
+    EOF_MARKER = b'%%EOF'
+    '''
 
-    return [page.extract_text() for page in pdf_reader.pages]
+    with open(file, 'rb') as f:
+        contents = f.read()
+
+    if EOF_MARKER in contents:
+        contents = contents.replace(EOF_MARKER, b'')
+        contents = contents + EOF_MARKER
+    else:
+        contents = contents[:-6] + EOF_MARKER
+
+    with open(file.replace('.pdf', '') + '_fixed.pdf', 'wb') as f:
+        f.write(contents)
+    '''
+    with open(file, 'ab') as f:
+        f.write(EOF_MARKER)
+        
+    f = open(file, 'rb')
+    pdf_reader = PyPDF2.PdfReader(f)
+    full_doc = [page.extract_text() for page in pdf_reader.pages]
+    f.close()
+
+    return full_doc
 
 # 목차 텍스트를 기준으로 데이터를 불러옴
 # 확인해야 할 점: 단순히 '목차'라는 단어가 나오는 경우에도 분리가 될 수 있음
 def split_to_unit(full_doc: list):
     # 목차를 지정하는 키워드 저장
-    with open('./crawler/parse/index.csv', 'r') as f:
+    with open('./parse/index.csv', 'r') as f:
         index_name_lt = []
         for line in f.readlines():
             index_name_lt.append(line[:-1])

@@ -3,13 +3,13 @@ import os
 import datetime
 import pathlib
 import ftplib
-sys.path.append('../../')
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname('./..'))))
 
 import unit_split
 import strip
 import clause_division as cd
 import utils
-from db.clause import *
+#from db.clause import *
 
 # 문서 하나를 파싱함
 def parse_clauses(file):

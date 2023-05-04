@@ -28,12 +28,11 @@ def text2articles(text_1D):
     for i in range(len(text_1D)):
         if re.search("^제.{1,}조", text_1D[i]):
             articles_1D.append(text_1D[i])
-        
         else:
             articles_1D[len(articles_1D)-1] += text_1D[i]
 
     return articles_1D
-        
+    
 ### function articles2clauses(main) ###
 #1. get param contents(1D array by [page])
 #2. for all contents,

@@ -1,7 +1,7 @@
 # Crawler
 - [x] FTP 서버 연결 구현
 - [ ] 파일 계층 리스트 기입
-- [ ] 테스트 코드 작성
+- [x] 테스트 코드 작성
 - [ ] 테스트
 
 # DB
@@ -28,7 +28,7 @@
         - 유사한 데이터 형식
     - Cons
         - 실제론 다소 다를 수 있음
-- 요약문 Dataset \
+- 요약문 추가 Dataset \
     https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=582
 - 모델
     - https://huggingface.co/lcw99/t5-large-korean-text-summary

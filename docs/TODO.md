@@ -28,8 +28,11 @@
         - 유사한 데이터 형식
     - Cons
         - 실제론 다소 다를 수 있음
-- 요약문 추가 Dataset \
-    https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=582
+- 추가 데이터셋
+    - 요약문 데이터셋(Labeled) \
+        https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=582
+    - 약관 데이터셋(Unlabeled) \
+        https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=580
 - 모델
     - https://huggingface.co/lcw99/t5-large-korean-text-summary
     - https://huggingface.co/eenzeenee/t5-small-korean-summarization

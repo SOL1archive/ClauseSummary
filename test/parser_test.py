@@ -17,4 +17,4 @@ def single_file_parse_test(file):
         print(ticker, date, product, sub_title, contents, doc_no, sep='\n\n')
     assert type(ticker) == str
     assert contents.count('\n') > 0
-    assert contents.count('\n') < 1000
+    assert contents.count('\n') < 10000

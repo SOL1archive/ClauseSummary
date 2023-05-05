@@ -37,7 +37,7 @@ def parse_single_labeled_dir(path):
             row['text'] = parse_file(child)
             row['title'] = child.name[child.name.find('_') + 1:child.name.rfind('_')]
             row['id'] = child.name[:child.name.find('_')]
-            data.append()
+            data.append(row)
 
     data['label'] = [label] * len(path.iterdir())
 

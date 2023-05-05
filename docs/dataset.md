@@ -13,3 +13,12 @@
 
 - `parse_file(file)` \
     하나의 파일 내에서 조항을 파싱함
+
+## `tokenize.py`
+여러 테스크를 위한 Tokenizer Wrapper들을 제공함.
+
+- `TokenizeMapWrapper` \
+    단일 Tokenizer Wrapper. 텍스트 피처 하나만을 tokenizing함.
+
+- `Seq2SeqTokenizeMapWrapper(TokenizeMapWrapper)` \
+    Sequence-to-sequence 테스트에 대한 tokenzining을 제공함.

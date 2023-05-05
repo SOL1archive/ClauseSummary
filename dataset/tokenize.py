@@ -33,4 +33,4 @@ class Seq2SeqTokenizeMapWrapper(TokenizeMapWrapper):
         }
 
     def __call__(self, row):
-        return self.seq2seq_tokenize(row, self.tokenizer)
+        return self.seq2seq_tokenize(row)

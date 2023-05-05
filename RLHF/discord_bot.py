@@ -41,4 +41,4 @@ class RLHFBot(discord.Client):
 intents = discord.Intents.default()
 intents.message_content = True
 client = RLHFBot(intents=intents)
-client.run('your token here')
+client.run(TOKEN)

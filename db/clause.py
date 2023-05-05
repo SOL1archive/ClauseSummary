@@ -36,7 +36,16 @@ class Data(Base):
     
    # def __repr__(self):
    #     return 'user_id : %s, user_name : %s, profile_url : %s' % (self.user_id, self.user_name, self.profile_url)
-
+    
+class HumanData(Base):
+    __tablename__ = 'humandata'  # data 테이블과 매핑된다.
+    id = mapped_column(Integer, nullable=False, primary_key=True)
+    human_score = mapped_column(Integer, nullable=False)
+    
+    def __init__(self, id, human_score):
+        self.id = id
+        self.human_score = human_score
+        
 class DBConnect:
     def __init__(self) -> None:
         db_config_path = pathlib.Path(__file__).parent.joinpath('db.yaml')
@@ -51,6 +60,10 @@ class DBConnect:
     
     def add(self, *argv, **kwarg):
         row = Data(*argv, **kwarg)
+        self.session.add(row)
+        
+    def score_add(self, *argv, **kwarg):
+        row = HumanData(*argv, **kwarg)
         self.session.add(row)
 
     def commit(self):

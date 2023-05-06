@@ -16,8 +16,9 @@ def select_n(n) -> pd.DataFrame:
     return ans
 
 # 요약이 되지 않은 데이터 조회 (한 건 씩 출력)
-def summary_unlabeled(i) -> pd.DataFrame:
-    ans = DBconnect.session.query(data).filter_by(id=i).all()
+def summary_unlabeled() -> pd.DataFrame:
+    ans = DBconnect.session.query(data).all()
+    ans = ans.filter(data.id.not_in(DBconnect.session.query(data.id).all()))
     return ans
 
 # 생성된 요약문을 DB에 저장

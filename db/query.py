@@ -3,7 +3,7 @@ import pandas as pd
 from sqlalchemy import select, Connection, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 
-from clause import Data, DBConnect
+from clause import DBConnect, Data, Summary, Reward
 
 '''
 - db_connect 객체 입력받기
@@ -13,31 +13,38 @@ from clause import Data, DBConnect
 '''
 
 # 전체 테이블 조회 (학습용)
-def select_all(db_connect) -> pd.DataFrame:
-    ans = db_connect.session.query(['']).all()
-    return ans
+def select_all(db_connect):
+    ans = db_connect.session.query('data').all()
+    df = pd.DataFrame(ans)
+    return df
 
 # 일정 수의 데이터 조회 (학습용)
-def select_n(n) -> pd.DataFrame:
-    ans = DBconnect.session.query(data).limit(n).all()
-    return ans
+def select_n(db_connect,n):
+    ans = db_connect.session.query('text').limit(n).all()
+    df = pd.DataFrame(ans)
+    return df
 
 # 요약이 되지 않은 데이터 조회 (한 건 씩 출력)
-def summary_unlabeled() -> pd.DataFrame:
-    ans = DBconnect.session.query(data).all()
-    ans = ans.filter(data.id.not_in(DBconnect.session.query(data.id).all()))
-    return ans
+def summary_unlabeled(db_connect):
+    req = db_connect.session.query(Summary).filter(Summary.text is 'null').get(1)
+    ans = db_connect.session.query(Data).filter(Data.id == req).all()
+    df = pd.DataFrame(ans)
+    return df
 
 # 생성된 요약문을 DB에 저장
-def save_summary(row_no, summary) -> None:
-    #add 함수 이용해야 할 듯?
-    pass
+def save_summary(row_no, summary):
+    sum_list = pd.values.tolist()
+    DBConnect.SummaryAdd(sum_list)
+    DBConnect.commit()
 
-def save_reward_label(row_no, reward) -> None:
-    #add 함수 이용해야 할 듯?
-    pass
+def save_reward_label(row_no, reward):
+    reward_list = pd.values.tolist()
+    DBConnect.RewardAdd(reward_list)
+    DBConnect.commit()
 
 # Reward 라벨링이 되지 않은 데이터 조회 (한 건 씩 출력)
-def reward_unlabeled() -> pd.DataFrame:
-    ans = DBconnect.session.query(sum_data).filter_by(id=i).all()
-    return ans
+def reward_unlabeled(db_connect):
+    req = db_connect.session.query(Reward).filter(Reward.reward is 'null').get(1)
+    ans = db_connect.session.query(Data).join(Summary, Data.id == Summary.id).filter(Data.id == req).all()
+    df = pd.DataFrame(ans)
+    return df

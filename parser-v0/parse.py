@@ -10,7 +10,7 @@ import unit_split
 import strip
 import clause_split as cs
 import utils
-# from db.clause import *
+from clause import *
 
 # 문서 하나를 파싱함
 def parse_clauses(file):
@@ -29,7 +29,24 @@ def parse_clauses(file):
 
         yield (ticker, date, product, sub_title, contents, doc_no)
 
-def main():
+def main_local():
+    connect = DBConnect()
+    yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
+    with open(yaml_path, 'r') as f:
+        config = yaml.safe_load(f)
+        
+    csv_path = pathlib.Path(__file__).parent.joinpath('target_dirs.csv')
+    with open(csv_path, 'r') as f:
+            target_dirs = [pathlib.Path(str_path) for str_path in f.readlines()]
+    
+    # 각 파일에 대해 처리함
+    for dir in target_dirs:
+        for file in dir.iterdir():
+            if utils.is_pdf(file):
+                for (ticker, date, product, sub_title, contents, doc_no) in parse_clauses(file):
+                    connect.add(ticker, date, product, sub_title, contents, doc_no)
+
+def main_ftp():
     connect = DBConnect()
     yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
     with open(yaml_path, 'r') as f:
@@ -55,4 +72,8 @@ def main():
     connect.commit()
 
 if __name__ == '__main__':
-    main()
+    local_target = input('Local target? (y/n) ').lower() == 'y'
+    if local_target:
+        main_local()
+    else:
+        main_ftp()

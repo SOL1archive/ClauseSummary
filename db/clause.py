@@ -37,14 +37,23 @@ class Data(Base):
    # def __repr__(self):
    #     return 'user_id : %s, user_name : %s, profile_url : %s' % (self.user_id, self.user_name, self.profile_url)
     
-class HumanData(Base):
-    __tablename__ = 'humandata'  # data 테이블과 매핑된다.
+class Summary(Base):
+    __tablename__ = 'summary'  # summary 테이블과 매핑된다.
     id = mapped_column(Integer, nullable=False, primary_key=True)
-    human_score = mapped_column(Integer, nullable=False)
+    summary = mapped_column('longtext', nullable=False)
     
-    def __init__(self, id, human_score):
+    def __init__(self, id, summary):
         self.id = id
-        self.human_score = human_score
+        self.summary = summary
+
+class Reward(Base):
+    __tablename__ = 'reward'  # reward 테이블과 매핑된다.
+    id = mapped_column(Integer, nullable=False, primary_key=True)
+    reward = mapped_column(Integer)
+    
+    def __init__(self, id, reward):
+        self.id = id
+        self.reward = reward
         
 class DBConnect:
     def __init__(self) -> None:
@@ -58,12 +67,16 @@ class DBConnect:
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
     
-    def add(self, *argv, **kwarg):
+    def DataAdd(self, *argv, **kwarg):
         row = Data(*argv, **kwarg)
         self.session.add(row)
         
-    def score_add(self, *argv, **kwarg):
-        row = HumanData(*argv, **kwarg)
+    def SummaryAdd(self, *argv, **kwarg):
+        row = Reward(*argv, **kwarg)
+        self.session.add(row)
+
+    def RewardAdd(self, *argv, **kwarg):
+        row = Reward(*argv, **kwarg)
         self.session.add(row)
 
     def commit(self):

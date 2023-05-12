@@ -9,7 +9,7 @@ from clause import DBConnect, Data, Summary, Reward
 - db_connect 객체 입력받기
 - 문서 스펙에 맞춰서 데이터 조회
 - 전체 함수들 다 완성
-- 
+- **테스트**
 '''
 
 # 전체 테이블 조회 (학습용)
@@ -33,13 +33,11 @@ def summary_unlabeled(db_connect):
 
 # 생성된 요약문을 DB에 저장
 def save_summary(db_connect, row_no, summary):
-    sum_list = pd.values.tolist()
-    db_connect.add_summary(sum_list)
+    db_connect.add_summary(row_no, summary)
     db_connect.commit()
 
 def save_reward_label(db_connect, row_no, reward):
-    reward_list = pd.values.tolist()
-    db_connect.add_reward(reward_list)
+    db_connect.add_reward(row_no, reward)
     db_connect.commit()
 
 # Reward 라벨링이 되지 않은 데이터 조회 (한 건 씩 출력)

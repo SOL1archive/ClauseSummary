@@ -13,7 +13,8 @@ class ClovaSummary:
 
         default_option = {
             'language': 'ko',
-            'model': 'general'
+            'model': 'general',
+            'tone': 2,
         }
 
         self.url = self.user_data['URL']

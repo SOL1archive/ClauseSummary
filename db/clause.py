@@ -72,6 +72,9 @@ class DBConnect:
     def RewardAdd(self, *argv, **kwarg):
         row = Reward(*argv, **kwarg)
         self.session.add(row)
+    
+    def execute(self):
+        self.session.execute()
 
     def commit(self):
         self.session.commit()

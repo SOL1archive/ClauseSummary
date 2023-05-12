@@ -9,7 +9,7 @@ class ClovaSummary:
             self.user_yaml = './user.yaml'
         
         with open(self.user_yaml, 'r') as f:
-            self.user_data = yaml.parse(f)
+            self.user_data = yaml.safe_load(f)
 
         default_option = {
             'language': 'ko',
@@ -19,7 +19,7 @@ class ClovaSummary:
         self.url = self.user_data['URL']
         self.api_key_id = self.user_data['API-KEY-ID']
         self.api_key = self.user_data['API-KEY']
-        self.options = self.user_data.get('Options', default=default_option)
+        self.options = default_option if 'options' not in self.user_data else self.user_data['options']
 
     def summarize(self, text: str, title=None, options=None) -> str:
         '''
@@ -34,15 +34,19 @@ class ClovaSummary:
         headers['Content-Type'] = 'application/json'
 
         data = dict()
-        data['content'] = text
+        data['document'] = dict()
+        data['document']['content'] = text
         data['option'] = options
         if title is not None:
             data['title'] = title
 
-        response = requests.get(
-            self.url, data=data, headers=headers
+        response = requests.post(
+            self.url, data=json.dumps(data), headers=headers
             )
         
+        if response.status_code != 200:
+            raise Exception(f'API 요청에 실패했습니다. {response.status_code} {response.text}')
+
         body = json.loads(response.text)
         
         return body['summary']

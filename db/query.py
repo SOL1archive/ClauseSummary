@@ -32,15 +32,15 @@ def summary_unlabeled(db_connect):
     return df
 
 # 생성된 요약문을 DB에 저장
-def save_summary(row_no, summary):
+def save_summary(db_connect, row_no, summary):
     sum_list = pd.values.tolist()
-    DBConnect.SummaryAdd(sum_list)
-    DBConnect.commit()
+    db_connect.add_summary(sum_list)
+    db_connect.commit()
 
-def save_reward_label(row_no, reward):
+def save_reward_label(db_connect, row_no, reward):
     reward_list = pd.values.tolist()
-    DBConnect.RewardAdd(reward_list)
-    DBConnect.commit()
+    db_connect.add_reward(reward_list)
+    db_connect.commit()
 
 # Reward 라벨링이 되지 않은 데이터 조회 (한 건 씩 출력)
 def reward_unlabeled(db_connect):

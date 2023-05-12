@@ -67,15 +67,15 @@ class DBConnect:
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
     
-    def DataAdd(self, *argv, **kwarg):
+    def add_data(self, *argv, **kwarg):
         row = Data(*argv, **kwarg)
         self.session.add(row)
         
-    def SummaryAdd(self, *argv, **kwarg):
+    def add_summary(self, *argv, **kwarg):
         row = Reward(*argv, **kwarg)
         self.session.add(row)
 
-    def RewardAdd(self, *argv, **kwarg):
+    def add_reward(self, *argv, **kwarg):
         row = Reward(*argv, **kwarg)
         self.session.add(row)
 

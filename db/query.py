@@ -43,7 +43,7 @@ def summary_unlabeled(db_connect):
     return df
 
 # 생성된 요약문을 DB에 저장
-def save_summary(row_no, summary):
+def save_summary(db_connect, row_no, summary):
     '''
     sum_list = pd.values.tolist()
     DBConnect.SummaryAdd(sum_list)
@@ -51,7 +51,7 @@ def save_summary(row_no, summary):
     db_connect.session.SummaryAdd(row_no, summary)
     db_connect.session.commit()
 
-def save_reward_label(row_no, reward):
+def save_reward_label(db_connect, row_no, reward):
     '''
     reward_list = pd.values.tolist()
     DBConnect.RewardAdd(reward_list)

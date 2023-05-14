@@ -4,7 +4,7 @@ from sqlalchemy import select, Connection, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 
 
-from clause import DBConnect, Data, Summary, Reward
+from db.clause import DBConnect, Data, Summary, Reward
 
 
 # 전체 테이블 조회 (학습용)

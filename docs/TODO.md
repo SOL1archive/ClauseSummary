@@ -17,6 +17,19 @@
     - [x] 입출력 구현
     - [ ] DB 구현
 
+# Preprocessing
+- [ ] `text` Preprocessing (원문에 적용) \
+    `text_preprocessing_func(text: str) -> str`
+    - [ ] Whitespace remove(`\n\n`, `\n \n`, etc.)
+- [ ] `summary` Preprocessing (요약문에 적용) \
+    `summary_preprocessing_func(text: str) -> str` \
+    - [ ] `(1)` 은 제거, `(1)` 이 아닌 `(숫자)` 는 `,` 로 대체 \
+        `summary_preprocessing_func1(text: str) -> str`
+    - [ ] `숫자.` 형태로 되어 있을 때 앞에 개행문자 추가
+    - [ ] `숫자.`이 문장 시작에 있을 때, 가장 가까운 조항을 찾아서 `제n조의 숫사 항에서` 으로 바꾸기
+    - [ ] `갑`, `을`, `병`, `정` 뒤에 공백이 있을때 제거 \
+        `summary_preprocessing_func2(text: str) -> str`
+
 # Training
 - [ ] Main Model(Summarization Model) 학습 코드 작성
 - [ ] Evaluation Model 학습 코드 작성

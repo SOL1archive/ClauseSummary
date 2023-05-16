@@ -1,3 +1,6 @@
+from typing import Callable, Dict, List, Optional, Tuple, Union
+import pandas as pd
+
 def generate_seq(model, tokenizer, input):
     generated_ids = model.generate(**input)
     generated_text = tokenizer.decode(generated_ids.squeeze(0), skip_special_tokens=True)
@@ -23,12 +26,25 @@ def generate_from_data(model, tokenizer, data):
 
     return generate_input_target(model, tokenizer, input_data, label)
 
-def eval(model, tokenizer, input_seq, label, metric, options = dict()):
+def eval(model, tokenizer, input_seq, label, metric: Callable, options = dict()):
     generated_input_target = generate_input_target(model, tokenizer, input_seq, label)
-    score = metric.compute(
+    score = metric(
         generated_input_target['generated_text'], 
         generated_input_target['target_text'],
         **options
     )
 
     return score
+
+def eval_from_data(model, tokenizer, dataset, metric: Callable, options = dict()):
+    result = []
+    for data in dataset:
+        label = data['labels']
+        input_data = {
+            'input_ids': data['input_ids'],
+            'attention_mask': data['attention_mask'],
+        }
+
+        result.append(eval(model, tokenizer, input_data, label, metric, options))
+
+    return pd.Series(result)

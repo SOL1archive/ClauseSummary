@@ -21,17 +21,17 @@
     - [ ] DB 구현
 
 # Preprocessing
-- [ ] `text` Preprocessing (원문에 적용) \
+- [x] `text` Preprocessing (원문에 적용) \
     `text_preprocessing_func(text: str) -> str`
-    - [ ] Whitespace remove(`\n\n`, `\n \n`, etc.)
-- [ ] `summary` Preprocessing (요약문에 적용) \
+    - [x] Whitespace remove(`\n\n`, `\n \n`, etc.)
+- [x] `summary` Preprocessing (요약문에 적용) \
     `summary_preprocessing_func(text: str) -> str` \
-    - [ ] `(1)` 은 제거, `(1)` 이 아닌 `(숫자)` 는 `,` 로 대체 \
+    - [x] `(1)` 은 제거, `(1)` 이 아닌 `(숫자)` 는 `,` 로 대체 \
         **조금 더 보강 필요** \
         `summary_preprocessing_func1(text: str) -> str`
-    - [ ] `숫자.` 형태로 되어 있을 때 앞에 개행문자 추가
+    - [x] `숫자.` 형태로 되어 있을 때 앞에 개행문자 추가
     - [ ] `숫자.`이 문장 시작에 있을 때, 가장 가까운 조항을 찾아서 `제n조의 숫사 항에서` 으로 바꾸기
-    - [ ] `갑`, `을`, `병`, `정` 뒤에 공백이 있을때 제거 \
+    - [x] `갑`, `을`, `병`, `정` 뒤에 공백이 있을때 제거 \
         `summary_preprocessing_func2(text: str) -> str`
 
 # Training

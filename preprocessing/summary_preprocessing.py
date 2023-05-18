@@ -15,15 +15,15 @@ def summary_preprocessing_func2(text:str): # (1) (2) 형태를 ,으로
 
 def summary_preprocessing_func3(text:str) -> str:
         text = re.sub(r"\b갑\b", r'갑\b', str(text))
-        text = re.sub(r"\b갑\b", r'을\b', str(text))
-        text = re.sub(r"\b갑\b", r'정\b', str(text))
-        text = re.sub(r"\b갑\b", r'정\b', str(text))
+        text = re.sub(r"\b을\b", r'을\b', str(text))
+        text = re.sub(r"\b병\b", r'병\b', str(text))
+        text = re.sub(r"\b정\b", r'정\b', str(text))
         return text
 
 def summary_preprocessing_func(text: str):
     text = summary_preprocessing_func1(text)
     text = summary_preprocessing_func2(text)
-    text = summary_preprocessing_func3(text)
+    text = summary_preprocessing_func3(text)병
 
 if __name__ == '__main__':
     df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')
@@ -31,4 +31,3 @@ if __name__ == '__main__':
     result = summary_preprocessing_func3(text)
 
     print(text, result, sep='\n' + '-'*150 + '\n')
-    

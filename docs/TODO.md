@@ -17,7 +17,7 @@
 - [ ] RLHF를 위한 가벼운 챗봇 기반 인터페이스 개발
     - [x] 챗봇 플랫폼 결정
     - [x] API 문서 여부 확인
-    - [x] 입출력 구현
+    - [ ] 입출력 구현
     - [ ] DB 구현
 
 # Preprocessing
@@ -30,12 +30,15 @@
         **조금 더 보강 필요** \
         `summary_preprocessing_func1(text: str) -> str`
     - [x] `숫자.` 형태로 되어 있을 때 앞에 개행문자 추가
-    - [ ] `숫자.`이 문장 시작에 있을 때, 가장 가까운 조항을 찾아서 `제n조의 숫사 항에서` 으로 바꾸기
+    - [x] `숫자.`이 문장 시작에 있을 때, 가장 가까운 조항을 찾아서 `제n조의 숫사 항에서` 으로 바꾸기
     - [x] `갑`, `을`, `병`, `정` 뒤에 공백이 있을때 제거 \
         `summary_preprocessing_func2(text: str) -> str`
 
 # Training
-- [ ] Main Model(Summarization Model) 학습 코드 작성
+- [ ] Main Model(Summarization Model) 학습
+    - [ ] Huggingface - PyTorch 연결부 작성
+    - [ ] PyTorch Base 학습 코드 작성
+    - [ ] 모델 학습 및 하이퍼파라미터 튜닝
 - [ ] Evaluation Model 학습 코드 작성
 - [ ] Reinforcement Learning 코드 작성
 

@@ -14,23 +14,25 @@ def summary_preprocessing_func2(text:str): # (1) (2) 형태를 ,으로
     return ','.join(items)
 
 def summary_preprocessing_func3(text:str) -> str:
-        text = re.sub(r"\b갑\b", r'갑\b', str(text))
-        text = re.sub(r"\b을\b", r'을\b', str(text))
-        text = re.sub(r"\b병\b", r'병\b', str(text))
-        text = re.sub(r"\b정\b", r'정\b', str(text))
-        return text
+    text = re.sub(r"\b갑\b", r'갑\b', str(text))
+    text = re.sub(r"\b을\b", r'을\b', str(text))
+    text = re.sub(r"\b병\b", r'병\b', str(text))
+    text = re.sub(r"\b정\b", r'정\b', str(text))
+    return text
 
-def summary_preprocessing_func(text: str):
-    text = summary_preprocessing_func1(text)
-    text = summary_preprocessing_func2(text)
-    text = summary_preprocessing_func3(text)
-    
-  def summary_preprocessing_func4(text): #1. 2. 등을 지운다.
+def summary_preprocessing_func4(text): #1. 2. 등을 지운다.
     items = re.split(r'\d+\.', text)
     if len(items) > 1:
         items[1] = items[0]+items[1]
         del items[0]
     return ''.join(items)
+
+def summary_preprocessing_func(text: str):
+    text = summary_preprocessing_func1(text)
+    text = summary_preprocessing_func2(text)
+    text = summary_preprocessing_func3(text)
+    text = summary_preprocessing_func4(text)
+    return text
 
 if __name__ == '__main__':
     df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')

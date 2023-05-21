@@ -15,6 +15,7 @@ class ClovaSummary:
             'language': 'ko',
             'model': 'general',
             'tone': 2,
+            'summaryCount': 4
         }
 
         self.url = self.user_data['URL']

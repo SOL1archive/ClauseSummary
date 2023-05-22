@@ -14,10 +14,10 @@ def change_it_to_a_comma(text:str): # (1) (2) 형태를 ,으로
     return ','.join(items)
 
 def remove_whitespace_after_str(text:str):
-    text = re.sub(r"\b갑\b", r'갑\b', text)
-    text = re.sub(r"\b을\b", r'을\b', text)
-    text = re.sub(r"\b병\b", r'병\b', text)
-    text = re.sub(r"\b정\b", r'정\b', text)
+    text = re.sub(r"\b갑\s", r'갑', text)
+    text = re.sub(r"\b을\s", r'을', text)
+    text = re.sub(r"\b병\s", r'병', text)
+    text = re.sub(r"\b정\s", r'정', text)
     return text
 
 def change_number_point(text:str): # 1. 2. 등을 제 1조 2 항 등으로 바꿔줌
@@ -37,6 +37,6 @@ def summary_preprocessing_func(text: str):
 if __name__ == '__main__':
     df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')
     text = df['summary'][0]
-    result = remove_whitespace_after_str(text)
+    result = add_newline_before_number(text)
 
     print(text, result, sep='\n' + '-'*150 + '\n')

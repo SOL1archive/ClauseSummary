@@ -16,15 +16,15 @@ conn = mysql.connector.connect(
     password = 'tosan',
     database = 'tosan'
 )
-consor = conn.cursor()
+cursor = conn.cursor()
 
 #수정필요
 creat_table_query = '''
 
 '''
 
-TOKEN = token_data['MTEwNzI0NzA4MDk1Njc2MDA4NA.GqLmxP.wYDgszT4OW9ImGStviq1mLPLjtg2qa7ZqGePFg']
-CHANNEL_ID = token_data['1107264599025274991']
+TOKEN = token_data['your token']
+CHANNEL_ID = token_data['channel ID']
 
 class RLHFBot(discord.Client):
     def is_score(self, message):

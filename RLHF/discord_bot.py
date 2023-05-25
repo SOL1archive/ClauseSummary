@@ -18,13 +18,14 @@ with open('discord-token.yaml', 'r') as f:
 
 #'''
 
-TOKEN = token_data['your token']
+TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 
 class RLHFBot(discord.Client):
     def __init__(self, *, intents: Intents, **options: Any) -> None:
         super().__init__(intents=intents, **options)
         self.db_connect = clause.DBConnect()
+        # 첫번째 출력
 
     def is_score(self, message):
         return (
@@ -50,7 +51,8 @@ class RLHFBot(discord.Client):
             
             #한줄씩 출력
             data = query.reward_unlabeled(self.db_connect)
-            
+            self.row_no = data['row_no']
+
             # DB에 저장 구현
             for row_no in data:
                 # message 추출

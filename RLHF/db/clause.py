@@ -60,7 +60,7 @@ class DBConnect:
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
     
-    def add_data(self, row_no, text, title, id, label, summary, reward):
+    def add_all_data(self, row_no, text, title, id, label, summary, reward):
         row_data = Data(row_no, text, title, id, label)
         row_summary = Summary(row_no, summary)
         row_reward = Reward(row_no, reward)

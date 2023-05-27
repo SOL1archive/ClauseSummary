@@ -1,14 +1,24 @@
 # Data: DB
 # DB name tosan, table name data
-| Field     | Type                     | Null | Key | Default | Extra          |
-|-----------|--------------------------|------|-----|---------|----------------|
-| ticker    | text                     | NO   |     | NULL    |                |
-| date      | datetime                 | NO   |     | NULL    |                |
-| product   | text                     | NO   |     | NULL    |                |
-| sub_title | text                     | NO   |     | NULL    |                |
-| content   | text                     | NO   |     | NULL    |                |
-| doc_no    | int(7) unsigned zerofill | NO   |     | NULL    |                |
-| row_no    | int(7) unsigned zerofill | NO   | PRI | NULL    | auto_increment |
+| Field  | Type     | Null | Key | Default | Extra |
+|--------|----------|------|-----|---------|-------|
+| row_no | int      | NO   | PRI | NULL    |       |
+| text   | longtext | YES  |     | NULL    |       |
+| title  | longtext | YES  |     | NULL    |       |
+| id     | int      | YES  |     | NULL    |       |
+| label  | text     | YES  |     | NULL    |       |
+
+# DB name tosan, table name summary
+| Field     | Type     | Null | Key | Default | Extra |
+|-----------|----------|------|-----|---------|-------|
+| row_no    | int      | NO   | PRI | NULL    |       |
+| summary   | longtext | YES  |     | NULL    |       |
+
+# DB name tosan, table name reward
+| Field    | Type     | Null | Key | Default | Extra |
+|----------|----------|------|-----|---------|-------|
+| row_no   | int      | NO   | PRI | NULL    |       |
+| reward   | longtext | YES  |     | NULL    |       |
 
 # Data: ORM
 # Use SQLAlchemy

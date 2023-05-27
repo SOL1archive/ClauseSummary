@@ -62,16 +62,14 @@ class DBConnect:
         self.session = self.Session()
     
     def add_data(self, row_no, text, title, id, label):
-        row = Data(row_no, text, title, id, label)
-        self.session.add(row) 
+        row_d = Data(row_no, text, title, id, label)
+        row_s = Summary(row_no)
+        row_r = Reward(row_no)
         
-    def add_summary(self, row_no, summary):
-        row = Summary(row_no, summary)
-        self.session.add(row)
-
-    def add_reward(self, row_no, reward):
-        row = Reward(row_no, reward)
-        self.session.add(row)
+        self.session.add(row_d)
+        self.session.add(row_s) 
+        self.session.add(row_r) 
+        
     
     def execute(self):
         self.session.execute()

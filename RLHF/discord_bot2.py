@@ -13,13 +13,13 @@ from discord.ext import commands
 intents = discord.Intents.default()
 intents.message_content = True
 
-with open('./discord-token.yaml', 'r') as f:
+with open('/home/bob/바탕화면/ClauseSummary/RLHF/discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
 
 TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 
-class RLHFBot(discord.ext.commands.Bot):
+class RLHFBot(commands.Bot):
     def __init__(self, **options) -> None:
         super().__init__(
             command_prefix='$',
@@ -27,6 +27,9 @@ class RLHFBot(discord.ext.commands.Bot):
             sync_command = True,
             **options)
         self.db_connect = clause.DBConnect()
+    
+#    async def setup_hook(self) -> Coroutine[Any, Any, None]:
+#        return await super().setup_hook()
 
     def is_score(self, message):
         return (
@@ -43,6 +46,8 @@ class RLHFBot(discord.ext.commands.Bot):
             status=discord.Status.online, 
             activity=discord.Game("'$'를 사용하여 시작해보세요!")
         )
+        data = query.reward_unlabeled(self.db_connect)
+        self.row_no = data['row_no']
     
     #잘못입력된 메세지 입력 시 반환
     async def on_command_error(message, error):
@@ -50,7 +55,6 @@ class RLHFBot(discord.ext.commands.Bot):
             await message.send("명령어를 찾지 못했습니다.")
 
     # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
-
     async def on_message(self, message):
         if self.is_score(message):
             
@@ -61,7 +65,7 @@ class RLHFBot(discord.ext.commands.Bot):
                 print(data)
 
     def __del__(self):
-        self.db_connect.close()
+            self.db_connect.close()
 
 bot = RLHFBot()
 bot.run(TOKEN)

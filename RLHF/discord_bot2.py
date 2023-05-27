@@ -19,7 +19,7 @@ with open('/home/bob/바탕화면/ClauseSummary/RLHF/discord-token.yaml', 'r') a
 TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 
-class RLHFBot(commands.Bot):
+class RLHFBot(commands.Cog):
     def __init__(self, **options) -> None:
         super().__init__(
             command_prefix='$',
@@ -27,6 +27,7 @@ class RLHFBot(commands.Bot):
             sync_command = True,
             **options)
         self.db_connect = clause.DBConnect()
+        self.bot = bot
     
 #    async def setup_hook(self) -> Coroutine[Any, Any, None]:
 #        return await super().setup_hook()
@@ -34,38 +35,44 @@ class RLHFBot(commands.Bot):
     def is_score(self, message):
         return (
             message.content.isdigit() and
-            0 <= int(message.content) <= 10 and
-            message.channel.name == 'score' and
-            message.author != self.user and
-            message.author.name != 'RLHF'
+            0 <= int(message.content) <= 10
         )
-    
+    @commands.Cog.listener()
     async def on_ready(self):
         print(f"We have logged in as {bot.user}")
         await self.change_presence(
             status=discord.Status.online, 
             activity=discord.Game("'$'를 사용하여 시작해보세요!")
         )
+    
+    @commands.command()
+    async def start(self, message):
+        await message.send("데이터를 가져옵니다.")
         data = query.reward_unlabeled(self.db_connect)
         self.row_no = data['row_no']
-    
-    #잘못입력된 메세지 입력 시 반환
-    async def on_command_error(message, error):
-        if isinstance(error, commands.CommandNotFound):
-            await message.send("명령어를 찾지 못했습니다.")
+
+        for self.row_no in data:
+            await message.send(str(self.row_no[0]))
 
     # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
-    async def on_message(self, message):
+    @commands.command()
+    async def input_data(self, message, num: int):
+        if num < 1 or num > 10:
+            await message.send('1부터 10사이의 숫자를 입력해주세요')
+        else:
+            pass
+    
+        num = int(message.content)
         if self.is_score(message):
-            
-            #한줄씩 출력
-            data = query.reward_unlabeled(self.db_connect)
-            self.row_no = data['row_no']
-            for row_no in data:
-                print(data)
+            pass
+
 
     def __del__(self):
-            self.db_connect.close()
+        self.db_connect.close()
 
-bot = RLHFBot()
+def setup(bot):
+    bot.add_cog(RLHFBot(bot))
+
+bot = commands.Bot(command_prefix="$",intents = intents)
+bot.add_cog(RLHFBot(bot))
 bot.run(TOKEN)

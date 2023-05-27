@@ -10,7 +10,7 @@ import discord
 import db.clause as clause
 import db.query as query
 
-with open('discord-token.yaml', 'r') as f:
+with open('/home/bob/바탕화면/ClauseSummary/RLHF/discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
 
 #수정필요
@@ -53,7 +53,7 @@ class RLHFBot(discord.Client):
             data = query.reward_unlabeled(self.db_connect)
             self.row_no = data['row_no']
 
-            # DB에 저장 구현
+            # DB에 저장 
             for row_no in data:
                 # message 추출
                 content = message.contentdiscord.py
@@ -62,9 +62,6 @@ class RLHFBot(discord.Client):
                 timestamp = message.created_at
             
             #수정필요
-            inset_query = '''
-            content, author_id, channel_name, timestamp
-            '''
             values = (content, author_id, channel_name, timestamp)
 
             self.db_connect.commit()

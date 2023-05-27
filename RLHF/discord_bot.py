@@ -47,6 +47,11 @@ class RLHFBot(commands.Cog):
         data = query.reward_unlabeled(self.db_connect)
         self.row_no = data['row_no']
         print(self.row_no)
+        #    print(f"We have logged in as {bot.user}")
+    #    await self.change_presence(
+    #        status=discord.Status.online, 
+    #        activity=discord.Game("'$'를 사용하여 시작해보세요!")
+    #    )
 
     # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
     # TODO: 

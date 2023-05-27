@@ -13,15 +13,14 @@ from discord.ext import commands
 intents = discord.Intents.default()
 intents.message_content = True
 
-
-with open('discord-token.yaml', 'r') as f:
+with open('./discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
 
 TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 
 class RLHFBot(discord.ext.commands.Bot):
-    def __init__(self, **options: Any) -> None:
+    def __init__(self, **options) -> None:
         super().__init__(
             command_prefix='$',
             intents = intents.all(),
@@ -61,9 +60,8 @@ class RLHFBot(discord.ext.commands.Bot):
             for row_no in data:
                 print(data)
 
-    #def __del__(self):
-    #        self.db_connect = clause.DBConnect()
-    #        self.db_connect.mysql_close()
+    def __del__(self):
+        self.db_connect.close()
 
 bot = RLHFBot()
 bot.run(TOKEN)

@@ -22,8 +22,8 @@ TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 
 class RLHFBot(discord.Client):
-    def __init__(self, *, intents: Intents, **options: Any) -> None:
-        super().__init__(intents=intents, **options)
+    def __init__(self, **options: Any) -> None:
+        super().__init__(**options)
         self.db_connect = clause.DBConnect()
         # 첫번째 출력
 

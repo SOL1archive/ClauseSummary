@@ -20,30 +20,20 @@ TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 
 class RLHFBot(commands.Cog):
-    def __init__(self, **options) -> None:
-        super().__init__(
-            command_prefix='$',
-            intents = intents.all(),
-            sync_command = True,
-            **options)
+    def __init__(self,bot):
         self.db_connect = clause.DBConnect()
-        self.bot = bot
     
 #    async def setup_hook(self) -> Coroutine[Any, Any, None]:
 #        return await super().setup_hook()
-
-    def is_score(self, message):
-        return (
-            message.content.isdigit() and
-            0 <= int(message.content) <= 10
-        )
+    
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"We have logged in as {bot.user}")
-        await self.change_presence(
-            status=discord.Status.online, 
-            activity=discord.Game("'$'를 사용하여 시작해보세요!")
-        )
+        print("bot is ready")
+    #    print(f"We have logged in as {bot.user}")
+    #    await self.change_presence(
+    #        status=discord.Status.online, 
+    #        activity=discord.Game("'$'를 사용하여 시작해보세요!")
+    #    )
     
     @commands.command()
     async def start(self, message):
@@ -69,9 +59,6 @@ class RLHFBot(commands.Cog):
 
     def __del__(self):
         self.db_connect.close()
-
-def setup(bot):
-    bot.add_cog(RLHFBot(bot))
 
 bot = commands.Bot(command_prefix="$",intents = intents)
 bot.add_cog(RLHFBot(bot))

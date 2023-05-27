@@ -37,10 +37,8 @@ async def on_ready():
 async def start(message):
     await message.send("데이터를 가져옵니다.")
     data = query.reward_unlabeled(db_connect)
-    row_no = data['row_no']
-
-    for row_no in data:
-        await message.send(str(row_no[0]))
+    row_no = data.loc[['1']['text', 'summary']]
+    await message.send(row_no)
 
     # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
 @bot.command()

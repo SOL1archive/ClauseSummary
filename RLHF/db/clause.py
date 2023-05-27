@@ -63,7 +63,7 @@ class DBConnect:
     
     def add_data(self, *argv, **kwarg):
         row = Data(*argv, **kwarg)
-        self.session.add(row)
+        self.session.add(row) 
         
     def add_summary(self, *argv, **kwarg):
         row = Summary(*argv, **kwarg)

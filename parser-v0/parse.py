@@ -3,14 +3,13 @@ import os
 import datetime
 import pathlib
 import ftplib
-# import yaml
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname('./..'))))
+import yaml
 
 import unit_split
 import strip
 import clause_split as cs
 import utils
-from clause import *
+import db.clause as clause
 
 # 문서 하나를 파싱함
 def parse_clauses(file):
@@ -30,7 +29,7 @@ def parse_clauses(file):
         yield (ticker, date, product, sub_title, contents, doc_no)
 
 def main_local():
-    connect = DBConnect()
+    connect = clause.DBConnect()
     yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
     with open(yaml_path, 'r') as f:
         config = yaml.safe_load(f)
@@ -47,7 +46,7 @@ def main_local():
                     connect.add(ticker, date, product, sub_title, contents, doc_no)
 
 def main_ftp():
-    connect = DBConnect()
+    connect = clause.DBConnect()
     yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
     with open(yaml_path, 'r') as f:
         config = yaml.safe_load(f)

@@ -37,17 +37,23 @@ async def on_ready():
 async def start(message):
     await message.send("데이터를 가져옵니다.")
     data = query.reward_unlabeled(db_connect)
-    row_no = data.loc[['1']['text', 'summary']]
-    await message.send(row_no)
+    text = data['text'][0][:2000]
+    #summary = data['summary'][0]
+    #summary = summary[:4000] if len(summary) > 4000 else summary
+    await message.send(text)
+    #await message.send(summary)
 
     # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
+
 @bot.command()
-async def on_message(message):
+async def score(message, num: int):
     num = int(message.content)
     if num < 1 or num > 10:
         await message.send('1부터 10사이의 숫자를 입력해주세요')
     else:
-        pass
+        input_score = clause.DBConnect()
+        input_score.update_reward(num)
+        await message.send(f'숫자 {num}이/가 데이터베이스에 저장되었습니다.')
 
 def __del__():
     db_connect.close()

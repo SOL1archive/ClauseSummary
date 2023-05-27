@@ -53,8 +53,8 @@ class DBConnect:
     def __init__(self) -> None:
         db_config_path = pathlib.Path(__file__).parent.joinpath('db.yaml')
         with open(db_config_path, "r") as f:
-            credentials = yaml.safe_load(f)
-        self.db_url = 'mysql+pymysql://tosan:tosan@182.216.63.62/tosan'
+            self.config = yaml.safe_load(f)
+        self.db_url = f"mysql+pymysql://{self.config['user']}:{self.config['password']}@{self.config['host']}/tosan"
         self.engine = create_engine(self.db_url)
 
         # engine 종속적 session 정의

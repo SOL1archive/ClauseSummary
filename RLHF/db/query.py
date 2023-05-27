@@ -55,6 +55,7 @@ def save_reward_label(db_connect: DBConnect, row_no, reward):
     db_connect.update_reward(row_no, reward)
     db_connect.session.commit()
 
+
 # Reward 라벨링이 되지 않은 데이터 조회 (한 건 씩 출력)
 def reward_unlabeled(db_connect):
     '''

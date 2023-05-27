@@ -68,5 +68,6 @@ def reward_unlabeled(db_connect):
     sql = text('select * from data join summary on data.row_no = summary.row_no inner join reward on summary.row_no = reward.row_no where data.row_no = (select reward.row_no from reward where reward.reward is null limit 1)')
     ans = db_connect.session.execute(sql)
     df = pd.DataFrame(list(ans))
+    df.columns = list(ans.keys())
 
     return df

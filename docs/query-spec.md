@@ -10,8 +10,6 @@
 
     |Column|Desc.|
     |-|-|
-    |`product`||
-    |`sub_title`||
     |`content`||
     |`row_no`||
 
@@ -31,8 +29,6 @@
 
     |Column|Desc.|
     |-|-|
-    |`product`||
-    |`sub_title`||
     |`content`||
     |`row_no`||
 
@@ -63,8 +59,6 @@
 
     |Column|Desc.|
     |-|-|
-    |`product`||
-    |`sub_title`||
     |`content`||
     |`row_no`||
 

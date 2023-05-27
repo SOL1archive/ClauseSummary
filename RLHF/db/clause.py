@@ -78,3 +78,6 @@ class DBConnect:
 
     def commit(self):
         self.session.commit()
+
+    def close(self):
+        self.session.close()

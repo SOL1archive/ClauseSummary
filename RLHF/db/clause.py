@@ -16,7 +16,7 @@ class Base(DeclarativeBase):
         return f"{self.__class__.__name__}({', '.join(f'{k}={v}' for k, v in self.__dict__.items())})"
 
 class Data(Base):
-    __tablename__ = 'data'  # summary 테이블과 매핑된다.
+    __tablename__ = 'data'  # data 테이블과 매핑된다.
     row_no = mapped_column(Integer, nullable=False, primary_key=True)
     text = mapped_column(LONGTEXT, nullable=False)
     title = mapped_column(LONGTEXT, nullable=False)
@@ -24,12 +24,11 @@ class Data(Base):
     label = mapped_column(TEXT)
     
     def __init__(self, row_no, text, title, id, label):
-        self.row_no = [row_no]
-        self.text = [text]
-        self.title = [title]
-        self.id = [id]
-        self.label = [label]
-
+        self.row_no = row_no
+        self.text = text
+        self.title = title
+        self.id = id
+        self.label = label
     
 class Summary(Base):
     __tablename__ = 'summary'  # summary 테이블과 매핑된다.
@@ -37,8 +36,8 @@ class Summary(Base):
     summary = mapped_column(LONGTEXT, nullable=False)
     
     def __init__(self, row_no, summary):
-        self.row_no = [row_no]
-        self.summary = [summary]
+        self.row_no = row_no
+        self.summary = summary
 
 class Reward(Base):
     __tablename__ = 'reward'  # reward 테이블과 매핑된다.
@@ -46,8 +45,8 @@ class Reward(Base):
     reward = mapped_column(Integer)
     
     def __init__(self, row_no, reward):
-        self.row_no = [row_no]
-        self.reward = [reward]
+        self.row_no = row_no
+        self.reward = reward
         
 class DBConnect:
     def __init__(self) -> None:
@@ -61,15 +60,26 @@ class DBConnect:
         self.Session = sessionmaker(self.engine)
         self.session = self.Session()
     
-    def add_data(self, row_no, text, title, id, label):
-        row_d = Data(row_no, text, title, id, label)
-        row_s = Summary(row_no)
-        row_r = Reward(row_no)
+    def add_data(self, row_no, text, title, id, label, summary, reward):
+        row_data = Data(row_no, text, title, id, label)
+        row_summary = Summary(row_no, summary)
+        row_reward = Reward(row_no, reward)
         
-        self.session.add(row_d)
-        self.session.add(row_s) 
-        self.session.add(row_r) 
-        
+        self.session.add(row_data)
+        self.session.add(row_summary)
+        self.session.add(row_reward)
+
+    def update_reward(self, row_no, reward):
+        (self.session.query(Reward)
+                     .filter(Reward.row_no == row_no)
+                     .update({'reward': reward})
+        )
+    
+    def update_summary(self, row_no, summary):
+        (self.session.query(Summary)
+                     .filter(Summary.row_no == row_no)
+                     .update({'summary': summary})
+        )
     
     def execute(self):
         self.session.execute()

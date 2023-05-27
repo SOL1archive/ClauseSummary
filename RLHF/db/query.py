@@ -14,8 +14,10 @@ def select_all(db_connect):
     df = pd.DataFrame(ans)
     '''
     sql = text('select * from data')
-    result = db_connect.session.execute(sql)
+    ans = db_connect.session.execute(sql)
     df = pd.DataFrame(list(ans))
+    df.columns = list(ans.keys())
+
     return df
 
 # 일정 수의 데이터 조회 (학습용)
@@ -27,6 +29,8 @@ def select_n(db_connect,n):
     sql = text(f'select * from data limit{n}')
     ans = db_connect.session.execute(sql)
     df = pd.DataFrame(list(ans))
+    df.columns = list(ans.keys())
+
     return df
 
 # 요약이 되지 않은 데이터 조회 (한 건 씩 출력)
@@ -39,24 +43,16 @@ def summary_unlabeled(db_connect):
     sql = text('select * from data where data.row_no = (select summary.row_no from summary where summary.summary is null limit 1)')
     ans = db_connect.session.execute(sql)
     df = pd.DataFrame(list(ans))
+    df.columns = list(ans.keys())
 
     return df
 
-# 생성된 요약문을 DB에 저장
-def save_summary(db_connect, row_no, summary):
-    '''
-    sum_list = pd.values.tolist()
-    DBConnect.SummaryAdd(sum_list)
-    '''
-    db_connect.session.SummaryAdd(row_no, summary)
-    db_connect.session.commit()
-
-def save_reward_label(db_connect, row_no, reward):
+def save_reward_label(db_connect: DBConnect, row_no, reward):
     '''
     reward_list = pd.values.tolist()
     DBConnect.RewardAdd(reward_list)
     '''
-    db_connect.session.RewardAdd(row_no, reward)
+    db_connect.update_reward(row_no, reward)
     db_connect.session.commit()
 
 # Reward 라벨링이 되지 않은 데이터 조회 (한 건 씩 출력)
@@ -71,3 +67,12 @@ def reward_unlabeled(db_connect):
     df.columns = list(ans.keys())
 
     return df
+
+# 생성된 요약문을 DB에 저장
+def save_summary(db_connect, row_no, summary):
+    '''
+    sum_list = pd.values.tolist()
+    DBConnect.SummaryAdd(sum_list)
+    '''
+    db_connect.update_summary(row_no, summary)
+    db_connect.session.commit()

@@ -47,13 +47,13 @@ async def start(message):
 
 @bot.command()
 async def score(message, num: int):
-    num = int(message.content)
-    if num < 1 or num > 10:
-        await message.send('1부터 10사이의 숫자를 입력해주세요')
-    else:
+    if 1 <= num <= 10:
         input_score = clause.DBConnect()
-        input_score.update_reward(num)
+        input_score.update_reward(reward=num)
         await message.send(f'숫자 {num}이/가 데이터베이스에 저장되었습니다.')
+    else:
+        await message.send('1부터 10사이의 숫자를 입력해주세요')
+        
 
 def __del__():
     db_connect.close()

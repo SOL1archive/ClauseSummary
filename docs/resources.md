@@ -8,16 +8,11 @@
         https://aiopen.etri.re.kr/corpusModel
         
 ## Models
-- 모델(Summarize)
-    - https://huggingface.co/lcw99/t5-large-korean-text-summary
-    - https://huggingface.co/eenzeenee/t5-small-korean-summarization
-    - https://huggingface.co/eenzeenee/t5-base-korean-summarization
-    - https://huggingface.co/gogamza/kobart-summarization
-    
-    - https://nlp.jbnu.ac.kr/papers/leegh_hclt2021_prefixlm.pdf 
-    - https://github.com/HaloKim/KorBertSum
-    - https://github.com/raqoon886/KorBertSum
-    - https://velog.io/@raqoon886/KorBertSum-SummaryBot (ChatBot)
+- 모델(Summarize): 학습 끝난 모델에 [x] 표시
+    - [x] https://huggingface.co/lcw99/t5-large-korean-text-summary
+    - [ ] https://huggingface.co/eenzeenee/t5-base-korean-summarization
+    - [ ] https://huggingface.co/gogamza/kobart-summarization
+    - [ ] https://nlp.jbnu.ac.kr/papers/leegh_hclt2021_prefixlm.pdf 
     
 - 모델(Reward) https://huggingface.co/blog/rlhf
     - ** https://huggingface.co/OpenAssistant/reward-model-deberta-v3-large-v2?text=I+hate+you

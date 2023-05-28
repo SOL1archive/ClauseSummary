@@ -1,6 +1,11 @@
 # 회의 목록
-- [ ] 중간 보고서 작성
-
+- [x] 중간 보고서 작성
+- [ ] 강화학습 공부
+    - [ ] REINFORCE
+    - [ ] Actor-Critic
+    - [ ] PPO
+    - [ ] `RL4LM`
+    - [ ] `TextRL`
 
 # Crawler
 - [x] FTP 서버 연결 구현
@@ -19,7 +24,7 @@
     - [x] 챗봇 플랫폼 결정
     - [x] API 문서 여부 확인
     - [ ] 입출력 구현
-    - [ ] DB 구현
+    - [x] DB 구현
 
 # Preprocessing
 - [x] `text` Preprocessing (원문에 적용) \
@@ -37,11 +42,21 @@
 
 # Training
 - [ ] Main Model(Summarization Model) 학습
-    - [ ] Huggingface - PyTorch 연결부 작성
-    - [ ] PyTorch Base 학습 코드 작성
+    - [x] Huggingface - PyTorch 연결부 작성
+    - [x] PyTorch Base 학습 코드 작성
     - [ ] 모델 학습 및 하이퍼파라미터 튜닝
 - [ ] Evaluation Model 학습 코드 작성
+    - [ ] Huggingface - PyTorch 연결부 작성
+    - [ ] PyTorch Base 학습 코드 작성
+    - [ ] Fine-Tuning 헤드 설계 및 작성
+        - Classsifier or Regressor?
+    - [ ] 모델 학습 및 하이퍼파라미터 튜닝
 - [ ] Reinforcement Learning 코드 작성
+
+# Test
+- [ ] BLEU, ROUGE 테스트 코드
+    - [ ] BLEU
+    - [ ] ROUGE
 
 # 논의사항
 `resources.md` 로 옮김.

@@ -69,14 +69,14 @@ def eval_bleu(model, tokenizer, tokenized_testset):
             continue
         bleu_score_lt.append(bleu_score)
     
-    return pd.Series(bleu_score_lt)
+    return pd.DataFrame({'BLEU': bleu_score_lt})
 
 def eval_rogue(model, tokenizer, tokenized_testset):
     rouge = Rouge()
     rouge_score_dict = dict()
-    rouge_score_dict['precision'] = []
-    rouge_score_dict['recall'] = []
-    rouge_score_dict['fmeasure'] = []
+    rouge_score_dict['Precision'] = []
+    rouge_score_dict['Recall'] = []
+    rouge_score_dict['F1'] = []
 
     for example in tqdm(tokenized_testset):
         output = generate_from_data(model, tokenizer, example)
@@ -90,8 +90,8 @@ def eval_rogue(model, tokenizer, tokenized_testset):
         rouge_score_recall = rouge_score[0]['rouge-2']['r']
         rouge_score_f = rouge_score[0]['rouge-2']['f']
         
-        rouge_score_dict['precision'].append(rouge_score_precision)
-        rouge_score_dict['recall'].append(rouge_score_recall)
-        rouge_score_dict['fmeasure'].append(rouge_score_f)
+        rouge_score_dict['Precision'].append(rouge_score_precision)
+        rouge_score_dict['Recall'].append(rouge_score_recall)
+        rouge_score_dict['F1'].append(rouge_score_f)
     
     return pd.DataFrame(rouge_score_dict)

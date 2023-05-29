@@ -38,7 +38,7 @@ async def start(message):
     data = query.reward_unlabeled(db_connect)
     text = data['text'][0][:2000]
     row_no = data['row_no'][0]
-    with open('./data/row_no.txt', 'w') as f:
+    with open('/home/bob/바탕화면/ClauseSummary/RLHF/row_no,txt', 'w') as f:
         f.write(str(row_no))
     #summary = data['summary'][0]
     #summary = summary[:4000] if len(summary) > 4000 else summary
@@ -47,13 +47,13 @@ async def start(message):
 
     # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
 
-def is_score(num):
-    return 0 <= num <= 10
+#async def is_score(num):
+#    return 0 <= num <= 10
 
 @bot.command()
 async def score(message, num: int):
-    if is_score(num):
-        with open('./data/row_no.txt', 'r') as f:
+    if 0 <= num <= 10:
+        with open('/home/bob/바탕화면/ClauseSummary/RLHF/row_no,txt', 'r') as f:
             row_no = int(f.read())
         input_score = clause.DBConnect()
         input_score.update_reward(row_no=row_no, reward=num)

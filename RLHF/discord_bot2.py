@@ -1,17 +1,19 @@
-from discord.flags import Intents
 from typing import Any
 import yaml
+import pathlib
+
 import discord
+from discord.flags import Intents
+from discord.ext import commands
 import db.clause as clause
 import db.query as query
 
-from discord.ext import commands
-
+current_path = pathlib.Path(__file__).parent.absolute()
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='$', intents=intents, help_command= None)
 
-with open('/home/bob/바탕화면/ClauseSummary/RLHF/discord-token.yaml', 'r') as f:
+with open(current_path / 'RLHF/discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
 
 TOKEN = token_data['token']
@@ -53,7 +55,7 @@ async def start(message):
     data = query.reward_unlabeled(db_connect)
     text = data['text'][read_row][:2000]
     row_no = data['row_no'][read_row]
-    with open('/home/bob/바탕화면/ClauseSummary/RLHF/row_no,txt', 'w') as f:
+    with open(current_path / 'RLHF/row_no,txt', 'w') as f:
         '''
         파일경로 수정 필요
         '''
@@ -71,7 +73,7 @@ async def start(message):
 @bot.command()
 async def score(message, num: int):
     if 0 <= num <= 10:
-        with open('/home/bob/바탕화면/ClauseSummary/RLHF/row_no,txt', 'r') as f:
+        with open(current_path / 'RLHF/row_no,txt', 'r') as f:
             row_no = str(f.read())
         '''
         파일경로 수정 필요

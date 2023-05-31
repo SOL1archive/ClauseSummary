@@ -19,7 +19,6 @@ with open(current_path / 'RLHF/discord-token.yaml', 'r') as f:
 TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 db_connect = clause.DBConnect()
-read_row = 0
 
 #    async def setup_hook( -> Coroutine[Any, Any, None]:
 #        return await super().setup_hook()
@@ -30,10 +29,6 @@ async def on_ready():
         status=discord.Status.online, 
         activity=discord.Game("'$help'를 사용하여 시작해보세요!")
         )
-
-async def get_data():
-    read_row += 1
-    pass
 
 @bot.command()
 async def help(message):
@@ -51,20 +46,19 @@ async def on_command_error(message, error):
 
 @bot.command()
 async def start(message):
+    read_row = 0
     data = query.reward_unlabeled(db_connect)
     if read_row < len(data.shape[0]):
         await message.send(f"{read_row}행 데이터를 가져옵니다.")
         text = data['text'][read_row][:2000]
         row_no = data['row_no'][read_row]
         with open(current_path / 'RLHF/row_no,txt', 'w') as f:
-            '''
-            파일경로 수정 필요
-            '''
             f.write(str(row_no))
     #summary = data['summary'][0]
     #summary = summary[:4000] if len(summary) > 4000 else summary
         await message.send(text)
     #await message.send(summary)
+        read_row += 1
     else:
         await message.send("더 이상 출력할 약관 데이터가 없습니다.")
 # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
@@ -83,7 +77,6 @@ async def score(message, num: int):
         input_score = clause.DBConnect()
         input_score.update_reward(row_no=row_no, reward=num)
         await message.send(f'숫자 {num}이/가 데이터베이스에 저장되었습니다.')
-        get_data()
     else:
         await message.send('1부터 10사이의 숫자를 입력해주세요')
         

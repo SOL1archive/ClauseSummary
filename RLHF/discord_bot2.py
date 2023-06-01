@@ -48,21 +48,17 @@ async def on_command_error(message, error):
 
 @bot.command()
 async def start(message):
-    read_row = 0
     data = query.reward_unlabeled(db_connect)
-    if read_row < len(data.shape[0]):
-        await message.send(f"{read_row}행 데이터를 가져옵니다.")
-        text = data['text'][read_row][:2000]
-        row_no = data['row_no'][read_row]
-        with open(current_path / 'RLHF/row_no,txt', 'w') as f:
-            f.write(str(row_no))
+    await message.send(f"{read_row}행 데이터를 가져옵니다.")
+    text = data['text'][read_row][:2000]
+    row_no = data['row_no'][read_row]
+    with open(current_path / 'RLHF/row_no,txt', 'w') as f:
+        f.write(str(row_no))
     #summary = data['summary'][0]
     #summary = summary[:4000] if len(summary) > 4000 else summary
-        await message.send(text)
+    await message.send(text)
     #await message.send(summary)
-        read_row += 1
-    else:
-        await message.send("더 이상 출력할 약관 데이터가 없습니다.")
+    await message.send("더 이상 출력할 약관 데이터가 없습니다.")
 # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
 #async def is_score(num):
 #    return 0 <= num <= 10

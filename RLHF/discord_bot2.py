@@ -13,7 +13,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='$', intents=intents, help_command= None)
 
-with open('/home/bob/바탕화면/ClauseSummary/RLHF/discord-token.yaml', 'r') as f:
+with open(current_path / 'discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
 
 TOKEN = token_data['token']
@@ -49,9 +49,9 @@ async def on_command_error(message, error):
 @bot.command()
 async def start(message):
     data = query.reward_unlabeled(db_connect)
-    await message.send(f"{read_row}행 데이터를 가져옵니다.")
-    text = data['text'][read_row][:2000]
-    row_no = data['row_no'][read_row]
+    await message.send(f"{0}행 데이터를 가져옵니다.")
+    text = data['text'][0][:2000]
+    row_no = data['row_no'][0]
     with open(current_path / 'RLHF/row_no,txt', 'w') as f:
         f.write(str(row_no))
     #summary = data['summary'][0]
@@ -60,8 +60,6 @@ async def start(message):
     #await message.send(summary)
     await message.send("더 이상 출력할 약관 데이터가 없습니다.")
 # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
-#async def is_score(num):
-#    return 0 <= num <= 10
 
 @bot.command()
 async def score(message, num: int):

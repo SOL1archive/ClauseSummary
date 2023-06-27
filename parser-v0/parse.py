@@ -18,15 +18,16 @@ def parse_clauses(file):
     clauses = cs.articles2clauses(page_units)
     
     file_name_split = file[:-4].split('-')
-    ticker = file_name_split[0]
-    product = file_name_split[1]
+    label = file_name_split[0]
+    title = file_name_split[1]
     doc_no = int(file_name_split[2])
+
+
     for i, clause in enumerate(clauses):
         sub_title = '일반조항' if i == 0 else f'부칙{i}'
-        contents = '\n'.join(clause)
-        date = datetime.datetime.now().strftime('%Y-%m-%d')
+        text = '\n'.join(clause)
 
-        yield (ticker, date, product, sub_title, contents, doc_no)
+        yield (text, title, sub_title, doc_no, label)
 
 def main_local():
     connect = clause.DBConnect()
@@ -37,13 +38,15 @@ def main_local():
     csv_path = pathlib.Path(__file__).parent.joinpath('target_dirs.csv')
     with open(csv_path, 'r') as f:
             target_dirs = [pathlib.Path(str_path) for str_path in f.readlines()]
-    
+
     # 각 파일에 대해 처리함
     for dir in target_dirs:
         for file in dir.iterdir():
             if utils.is_pdf(file):
-                for (ticker, date, product, sub_title, contents, doc_no) in parse_clauses(file):
-                    connect.add(ticker, date, product, sub_title, contents, doc_no)
+                for (text, title, sub_title, doc_no, label) in parse_clauses(file):
+                    connect.add(text, title, sub_title, doc_no, label)
+    
+
 
 def main_ftp():
     connect = clause.DBConnect()
@@ -60,12 +63,10 @@ def main_ftp():
 
     # 각 파일에 대해 처리함
     for dir in target_dirs:
-        ftp.cwd(dir)
-
-        for file in ftp.nlst():
+        for file in dir.iterdir():
             if utils.is_pdf(file):
-                for (ticker, date, product, sub_title, contents, doc_no) in parse_clauses(file):
-                    connect.add(ticker, date, product, sub_title, contents, doc_no)
+                for (row_no, text, title, doc_no, label) in parse_clauses(file):
+                    connect.add(row_no, text, title, doc_no, label)
     
     ftp.quit()
     connect.commit()

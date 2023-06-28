@@ -46,6 +46,8 @@ def main_local():
                 for (text, title, sub_title, id, label) in parse_clauses(file):
                     connect.add_data(text, title, sub_title, id, label)
     
+
+
 def main_ftp():
     connect = clause.DBConnect()
     yaml_path = pathlib.Path(__file__).parent.joinpath('parser-config.yaml')
@@ -63,8 +65,8 @@ def main_ftp():
     for dir in target_dirs:
         for file in dir.iterdir():
             if utils.is_pdf(file):
-                for (row_no, text, title, doc_no, label) in parse_clauses(file):
-                    connect.add(row_no, text, title, doc_no, label)
+                for (text, title, sub_title, id, label) in parse_clauses(file):
+                    connect.add_data(text, title, sub_title, id, label)
     
     ftp.quit()
     connect.commit()

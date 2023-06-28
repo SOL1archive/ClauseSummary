@@ -29,7 +29,6 @@ def text2articles(text_1D):
     # 첫 번째 "제1조"가 나오기 전까지 이전 text들은 삭제함
     for i in range(len(text_1D)):
         if (re.search("제1조", text_1D[i])):
-            print(i)
             break;    
   
     # v0 - Debugging 필요, 조항의 내용 중 제n조가 포함될 경우 그 부분에서 다른 조항으로 인식하고 갈라지는 경우가 발생함. 

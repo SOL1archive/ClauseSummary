@@ -139,3 +139,4 @@ data/*.pickle
 data/*.json
 data/*.csv
 **/db/db.yaml
+data/result/

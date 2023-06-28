@@ -44,6 +44,7 @@ def main_local():
         for file in dir.iterdir():
             if utils.is_pdf(file):
                 for (text, title, sub_title, id, label) in parse_clauses(file):
+                    print(text, title, sub_title, id, label)
                     connect.add_data(text, title, sub_title, id, label)
     
 

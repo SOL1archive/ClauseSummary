@@ -30,14 +30,16 @@ def text2articles(text_1D):
     for i in range(len(text_1D)):
         if (re.search("제1조", text_1D[i])):
             print(i)
-            break;    
+            break
+    else:
+        i = 0
   
     # v0 - Debugging 필요, 조항의 내용 중 제n조가 포함될 경우 그 부분에서 다른 조항으로 인식하고 갈라지는 경우가 발생함. 
     for j in range(i, len(text_1D)):
-        if re.search("^제.{1,}조", text_1D[j]):   
+        if re.search("^제[] ]?{1,}[ ]?조", text_1D[j]):
             articles_1D.append(text_1D[j])
         else:
-            articles_1D[len(articles_1D)-1] += text_1D[j]
+            articles_1D[len(articles_1D) - 1] += text_1D[j]
 
     return articles_1D
     
@@ -62,5 +64,3 @@ def articles2clauses(contents_1D):
             clauses_2D.append(articles_1D)
 
     return clauses_2D
-
-

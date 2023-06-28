@@ -22,7 +22,6 @@ def parse_clauses(file):
     title = file_name_split[1]
     id = int(file_name_split[2])
 
-
     for i, clause in enumerate(clauses):
         sub_title = '일반조항' if i == 0 else f'부칙{i}'
         text = '\n'.join(clause)

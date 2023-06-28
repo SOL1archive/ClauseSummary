@@ -11,7 +11,7 @@ import db.query as query
 current_path = pathlib.Path(__file__).parent.absolute()
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='$', intents=intents, help_command= None)
+bot = commands.Bot(command_prefix='!', intents=intents, help_command= None)
 
 with open(current_path / 'discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
@@ -27,7 +27,7 @@ async def on_ready():
     print(f"We have logged in as {bot.user}")
     await bot.change_presence(
         status=discord.Status.online, 
-        activity=discord.Game("'$help'를 사용하여 시작해보세요!")
+        activity=discord.Game("'!help'를 사용하여 시작해보세요!")
         )
 
 @bot.command()
@@ -40,23 +40,26 @@ async def help(message):
 @bot.event
 async def on_command_error(message, error):
     if isinstance(error, commands.CommandNotFound):
-        await message.send("$help를 입력해 설명서를 봐주세요!")
+        await message.send("!help를 입력해 설명서를 봐주세요!")
     elif isinstance(error, commands.CommandInvokeError):
         await message.send("현재 데이터베이스에 연결할 수 없습니다.")
     else:
-        await message.send("$help를 입력해 설명서를 봐주세요!")
+        await message.send("!help를 입력해 설명서를 봐주세요!")
 
 @bot.command()
 async def start(message):
     data = query.reward_unlabeled(db_connect)
     await message.send(f"{0}행 데이터를 가져옵니다.")
-    text = data['text'][0][:2000]
+    bundle = [message[i:i+2000] for i in range (0, len(message), 2000)]
+    #text = data['text'][0][:2000]
     row_no = data['row_no'][0]
     with open(current_path / 'RLHF/row_no,txt', 'w') as f:
         f.write(str(row_no))
     #summary = data['summary'][0]
     #summary = summary[:4000] if len(summary) > 4000 else summary
-    await message.send(text)
+    for bundle in bundle:
+        await message.send(bundle)
+    #await message.send(text)
     #await message.send(summary)
     await message.send("더 이상 출력할 약관 데이터가 없습니다.")
 # 메세지가 Score인지 체크하고 Score이면 DB에 저장함

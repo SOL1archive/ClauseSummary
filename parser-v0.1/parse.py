@@ -47,7 +47,7 @@ def main_local():
                     print(text, title, sub_title, id, label)
                     connect.add_data(text, title, sub_title, id, label)
     
-
+    connect.commit()
 
 def main_ftp():
     connect = clause.DBConnect()

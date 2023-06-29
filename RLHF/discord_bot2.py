@@ -60,7 +60,7 @@ async def start(message):
     # Print row_no
     row_no = data['row_no'][0]
     await message.send(f"{row_no:04}행 데이터를 가져옵니다.")
-    with open(current_path / 'RLHF/row_no,txt', 'w') as f:
+    with open(current_path / 'RLHF/row_no.txt', 'w') as f:
         f.write(str(row_no))
     # Print Text
     await message.send("Text:")

@@ -1,6 +1,7 @@
 from typing import Any
 import yaml
 import pathlib
+import logging
 
 import discord
 from discord.flags import Intents
@@ -40,12 +41,18 @@ async def help(message):
 
 @bot.event
 async def on_command_error(message, error):
+    logging.basicConfig(filename='error.log', encoding='utf-8', level=logging.ERROR, format='%(levelname)s-%(message)s')
     if isinstance(error, commands.CommandNotFound):
         await message.send("!help를 입력해 설명서를 봐주세요!")
+        logging.error('an error occurred: %s', error)
     elif isinstance(error, commands.CommandInvokeError):
         await message.send("현재 데이터베이스에 연결할 수 없습니다.")
+        logging.error('an error occurred: %s', error)
+
     else:
-        await message.send("!help를 입력해 설명서를 봐주세요!")
+        await message.send("알수없는 오류로 작업을 수행하지 못했습니다. 관리자에게 문의하여 확인해주세요.")
+        logging.error('an error occurred: %s', error)
+
 
 @bot.command()
 async def start(message):

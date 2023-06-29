@@ -78,7 +78,7 @@ async def start(message):
 @bot.command()
 async def score(message, num: int):
     if 0 <= num <= 10:
-        with open(current_path / 'RLHF/row_no,txt', 'r') as f:
+        with open(current_path / 'RLHF/row_no.txt', 'r') as f:
             row_no = str(f.read())
         input_score = clause.DBConnect()
         input_score.update_reward(row_no=row_no, reward=num)

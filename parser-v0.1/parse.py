@@ -4,6 +4,7 @@ import datetime
 import pathlib
 import ftplib
 import yaml
+import csv
 
 import unit_split
 import strip
@@ -44,11 +45,15 @@ def main_local():
     # 각 파일에 대해 처리함
     for dir in target_dirs:
         for file in dir.iterdir():
-            if utils.is_pdf(file):
-                text, title, sub_title, id, label = parse_clauses(file)
-                print(text, title, sub_title, id, label)
-                connect.add_data(text, title, sub_title, id, label)
-                connect.commit()
+            try:
+                if utils.is_pdf(file):
+                    text, title, sub_title, id, label = parse_clauses(file)
+                    print(title, sub_title, id, label)
+                    connect.add_data(text, title, sub_title, id, label)
+                    connect.commit()
+            except:
+                print('error!')
+                pass
 
 def main_ftp():
     connect = clause.DBConnect()
@@ -68,14 +73,14 @@ def main_ftp():
         for file in dir.iterdir():
             if utils.is_pdf(file):
                 for (text, title, sub_title, id, label) in parse_clauses(file):
-                    print(text, title, sub_title, id, label)
+                    #print(text, title, sub_title, id, label)
                     connect.add_data(text, title, sub_title, id, label)
     
     ftp.quit()
     connect.commit()
 
 if __name__ == '__main__':
-    local_target = input('Local target? (y/n) ').lower() == 'y'
+    local_target = 1
     if local_target:
         main_local()
     else:

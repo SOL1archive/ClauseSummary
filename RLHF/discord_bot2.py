@@ -62,14 +62,14 @@ async def on_command_error(message, error):
         await message.send("!help를 입력해 설명서를 봐주세요!")
         logging.error('an error occurred: %s', error)
     elif isinstance(error, commands.CommandInvokeError):
-        await message.send(f"Discord Bot Error: {error.original}")
-        logging.error('Discord Bot  error occurred: %s', error)
+        await message.send(f"{error.__name__} Error: {error.original}")
+        logging.error(f'{error.__name__} error occurred: %s', error)
     elif isinstance(error, sqlalchemy.exc.SQLAlchemyError):
-        await message.send(f"SQLalchemy Error: {error}")
-        logging.error('SQLalchemy error occurred: %s', error)
+        await message.send(f"{error.__name__}: {error}")
+        logging.error(f'{error.__name__} occurred: %s', error)
     else:
         await message.send("알수없는 오류로 작업을 수행하지 못했습니다. 관리자에게 문의하여 확인해주세요.")
-        logging.error('an error occurred: %s', error)
+        logging.error(f'{error.__name__} occurred: %s', error)
 
 @bot.command()
 async def start(message):

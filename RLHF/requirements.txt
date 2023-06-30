@@ -1,0 +1,6 @@
+pyyaml
+sqlalchemy
+discord
+numpy
+pandas
+pymysql

@@ -14,6 +14,7 @@ current_path = pathlib.Path(__file__).parent.absolute()
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='$', intents=intents, help_command= None)
+logging.basicConfig(filename='discord_bot.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s-%(levelname)s-%(message)s')
 
 with open(current_path / 'discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
@@ -57,7 +58,6 @@ async def help(message):
 
 @bot.event
 async def on_command_error(message, error):
-    logging.basicConfig(filename='discord_bot.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s-%(levelname)s-%(message)s')
     if isinstance(error, commands.CommandNotFound):
         await message.send("!help를 입력해 설명서를 봐주세요!")
         logging.error('an error occurred: %s', error)
@@ -98,11 +98,11 @@ async def start(message):
 async def score(message, num: int):
     if 0 <= num <= 10:
         with open(current_path / 'RLHF/row_no.txt', 'r') as f:
-            row_no = str(f.read())
-        input_score = clause.DBConnect()
-        input_score.update_reward(row_no=row_no, reward=num)
+            row_no = int(f.read().strip())
+        db_connect.update_reward(row_no=row_no, reward=num)
+        db_connect.commit()
         await message.send(f'숫자 {num}이/가 데이터베이스에 저장되었습니다.')
-        logging.info('saving row_no: %s', row_no)
+        logging.info('saving row_no: %d', row_no)
     else:
         await message.send('1부터 10사이의 숫자를 입력해주세요')
         

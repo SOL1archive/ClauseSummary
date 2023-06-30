@@ -62,14 +62,14 @@ async def on_command_error(message, error):
         await message.send("!help를 입력해 설명서를 봐주세요!")
         logging.error('an error occurred: %s', error)
     elif isinstance(error, commands.CommandInvokeError):
-        await message.send(f"{error.__name__} Error: {error.original}")
-        logging.error(f'{error.__name__} error occurred: %s', error)
+        await message.send(f"CommandInvoke Error: {error.original}")
+        logging.error(f'CommandInvoke error occurred: %s', error)
     elif isinstance(error, sqlalchemy.exc.SQLAlchemyError):
-        await message.send(f"{error.__name__}: {error}")
-        logging.error(f'{error.__name__} occurred: %s', error)
+        await message.send(f"SQLAlchemy Error: {error}")
+        logging.error(f'SQLAlchemy occurred: %s', error)
     else:
         await message.send("알수없는 오류로 작업을 수행하지 못했습니다. 관리자에게 문의하여 확인해주세요.")
-        logging.error(f'{error.__name__} occurred: %s', error)
+        logging.error(f'Unidentifed occurred: %s', error)
 
 @bot.command()
 async def start(message):
@@ -78,26 +78,26 @@ async def start(message):
     row_no = data['row_no'][0]
     await message.send(f"{row_no:04}행 데이터를 가져옵니다.")
     logging.info('loading row_no: %s', row_no)
-    with open(current_path / 'RLHF/row_no.txt', 'w') as f:
+    with open(current_path / 'row_no.txt', 'w') as f:
         f.write(str(row_no))
     # Print Text
     await message.send("Text:")
     text = data['text'][0]
     text_bundles = [text[i : i + 2000] for i in range (0, len(text), 2000)]
-    for bundle in text_bundles:
-        await message.send(bundle)
+    for text_bundle in text_bundles:
+        await message.send(text_bundle)
     # Print Summary
     summary = data['summary'][0]
     summary = summary[:2000] if len(summary) > 4000 else summary
     await message.send("Summary:")
     await message.send(summary)
     await message.send("더 이상 출력할 약관 데이터가 없습니다.")
-# 메세지가 Score인지 체크하고 Score이면 DB에 저장함
 
+# 메세지가 Score인지 체크하고 Score이면 DB에 저장함
 @bot.command()
 async def score(message, num: int):
     if 0 <= num <= 10:
-        with open(current_path / 'RLHF/row_no.txt', 'r') as f:
+        with open(current_path / 'row_no.txt', 'r') as f:
             row_no = int(f.read().strip())
         db_connect.update_reward(row_no=row_no, reward=num)
         db_connect.commit()

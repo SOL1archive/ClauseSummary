@@ -5,6 +5,7 @@ import pathlib
 import ftplib
 import yaml
 import csv
+import gc
 
 import unit_split
 import strip
@@ -51,6 +52,7 @@ def main_local():
                     print(title, sub_title, id, label)
                     connect.add_data(text, title, sub_title, id, label)
                     connect.commit()
+                    gc.collect()
             except:
                 print('error!')
                 pass

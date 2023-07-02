@@ -1,11 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from transformers import AutoModel
 
 class ModelForRewardGeneration(nn.Module):
-    def __init__(self, encoder, hidden_size):
+    def __init__(self, encoder_path, hidden_size):
         super(ModelForRewardGeneration, self).__init__()
-        self.encoder = encoder
+        self.encoder = AutoModel.from_pretrained(encoder_path)
         self.hidden_size = hidden_size
         self.head = nn.Sequential(
             nn.Linear(768, hidden_size, bias=False),

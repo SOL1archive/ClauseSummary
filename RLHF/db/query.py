@@ -50,3 +50,7 @@ def reward_unlabeled(db_connect):
 def save_summary(db_connect, row_no, summary):
     db_connect.update_summary(row_no, summary)
     db_connect.session.commit()
+
+# rollback
+def rollback(db_connect):
+    db_connect.session.rollback()

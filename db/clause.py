@@ -20,13 +20,15 @@ class Data(Base):
     row_no = mapped_column(Integer, nullable=False, primary_key=True)
     text = mapped_column(LONGTEXT, nullable=False)
     title = mapped_column(LONGTEXT, nullable=False)
+    sub_title = mapped_column(LONGTEXT, nullable=False)
     id = mapped_column(Integer, nullable=False)
     label = mapped_column(TEXT)
     
-    def __init__(self, row_no, text, title, id, label):
-        self.row_no = row_no
+    def __init__(self, text, title, sub_title, id, label):
+        #self.row_no = row_no
         self.text = text
         self.title = title
+        self.sub_title = sub_title
         self.id = id
         self.label = label
     
@@ -53,7 +55,7 @@ class DBConnect:
         db_config_path = pathlib.Path(__file__).parent.joinpath('db.yaml')
         with open(db_config_path, "r") as f:
             self.config = yaml.safe_load(f)
-        self.db_url = f"mysql+pymysql://{self.config['user']}:{self.config['password']}@{self.config['host']}/tosan"
+        self.db_url = f"mysql+pymysql://{self.config['user']}:{self.config['password']}@{self.config['host']}/parse"
         self.engine = create_engine(self.db_url)
 
         # engine 종속적 session 정의
@@ -68,6 +70,11 @@ class DBConnect:
         self.session.add(row_data)
         self.session.add(row_summary)
         self.session.add(row_reward)
+    
+    def add_data(self, text, title, sub_title, id, label):
+        row_data = Data(text, title, sub_title, id, label)
+        
+        self.session.add(row_data)
 
     def update_reward(self, row_no, reward):
         (self.session.query(Reward)

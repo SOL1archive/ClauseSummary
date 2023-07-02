@@ -7,15 +7,17 @@ class ModelForRewardGeneration(nn.Module):
         super(ModelForRewardGeneration, self).__init__()
         self.encoder = encoder
         self.hidden_size = hidden_size
-        self.fc1 = nn.Linear(768, hidden_size)
-        self.activation = nn.GELU()
-        self.fc2 = nn.Linear(hidden_size, 1)
+        self.head = nn.Sequential(
+            nn.Linear(768, hidden_size, bias=False),
+            nn.BatchNorm1d(hidden_size),
+            nn.GELU(),
+            nn.Dropout1d(0.1),
+            nn.Linear(hidden_size, 1),
+        )
 
     def forward(self, x):
         x = self.encoder(x)[:, 0, :]
-        x = self.fc1(x)
-        x = self.activation(x)
-        x = self.fc2(x)
+        x = self.head(x)
         return x
 
 def reference_reward_loss(reward, pred):

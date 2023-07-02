@@ -15,8 +15,8 @@ class ModelForRewardGeneration(nn.Module):
             nn.Linear(hidden_size, 1),
         )
 
-    def forward(self, x):
-        x = self.encoder(x)[:, 0, :]
+    def forward(self, input_ids=None, attention_mask=None):
+        x = self.encoder(input_ids, attention_mask).pooler_output
         x = self.head(x)
         return x
 

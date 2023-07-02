@@ -14,7 +14,6 @@ current_path = pathlib.Path(__file__).parent.absolute()
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='$', intents=intents, help_command= None)
-logging.basicConfig(filename='discord_bot.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s-%(levelname)s-%(message)s')
 
 with open(current_path / 'discord-token.yaml', 'r') as f:
     token_data = yaml.safe_load(f)
@@ -22,6 +21,7 @@ with open(current_path / 'discord-token.yaml', 'r') as f:
 TOKEN = token_data['token']
 CHANNEL_ID = token_data['channel ID']
 db_connect = clause.DBConnect()
+logging.basicConfig(filename='discord_bot.log', encoding='utf-8', level=logging.INFO, format='%(asctime)s-%(levelname)s-%(message)s')
 
 feedback_description = """
 **!start**
@@ -61,15 +61,20 @@ async def on_command_error(message, error):
     if isinstance(error, commands.CommandNotFound):
         await message.send("!help를 입력해 설명서를 봐주세요!")
         logging.error('an error occurred: %s', error)
+
     elif isinstance(error, commands.CommandInvokeError):
         await message.send(f"CommandInvoke Error: {error.original}")
         logging.error(f'CommandInvoke error occurred: %s', error)
+        db_connect.rollback()
+
     elif isinstance(error, sqlalchemy.exc.SQLAlchemyError):
         await message.send(f"SQLAlchemy Error: {error}")
-        logging.error(f'SQLAlchemy occurred: %s', error)
+        logging.error(f'SQLAlchemy error occurred: %s', error)
+        db_connect.rollback()
+
     else:
         await message.send("알수없는 오류로 작업을 수행하지 못했습니다. 관리자에게 문의하여 확인해주세요.")
-        logging.error(f'Unidentifed occurred: %s', error)
+        logging.error(f'{error.__name__} occurred: %s', error)
 
 @bot.command()
 async def start(message):
@@ -84,25 +89,25 @@ async def start(message):
     await message.send("Text:")
     text = data['text'][0]
     text_bundles = [text[i : i + 2000] for i in range (0, len(text), 2000)]
-    for text_bundle in text_bundles:
-        await message.send(text_bundle)
+    for bundle in text_bundles:
+        await message.send(bundle)
     # Print Summary
     summary = data['summary'][0]
     summary = summary[:2000] if len(summary) > 4000 else summary
     await message.send("Summary:")
     await message.send(summary)
     await message.send("더 이상 출력할 약관 데이터가 없습니다.")
-
 # 메세지가 Score인지 체크하고 Score이면 DB에 저장함
+
 @bot.command()
 async def score(message, num: int):
     if 0 <= num <= 10:
         with open(current_path / 'row_no.txt', 'r') as f:
             row_no = int(f.read().strip())
         db_connect.update_reward(row_no=row_no, reward=num)
-        db_connect.commit()
         await message.send(f'숫자 {num}이/가 데이터베이스에 저장되었습니다.')
         logging.info('saving row_no: %d', row_no)
+        db_connect.commit()
     else:
         await message.send('1부터 10사이의 숫자를 입력해주세요')
         

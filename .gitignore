@@ -134,6 +134,7 @@ discord-token.yaml
 .idea/
 *.pdf
 !docs/*.pdf
+data/preprocessed/*
 data/*.pkl
 data/*.pickle
 data/*.json

@@ -10,7 +10,11 @@ class ModelForRewardGeneration(nn.Module):
         self.hidden_size = hidden_size
         # TODO: head 설계
         self.head1 = nn.Sequential(
-            nn.Linear(768, hidden_size, bias=False),
+            nn.Linear(768, hidden_size * 2, bias=False),
+            nn.BatchNorm1d(hidden_size * 2),
+            nn.GELU(),
+            nn.Dropout1d(0.1),
+            nn.Linear(hidden_size * 2, hidden_size, bias=False),
             nn.BatchNorm1d(hidden_size),
             nn.GELU(),
         )
@@ -29,6 +33,11 @@ class ModelForRewardGeneration(nn.Module):
         x = self.head1(x)
         return x
     
+    def load(self, path):
+        self.head1.load_state_dict(torch.load(path + '-head1.pt'))
+        self.head2.load_state_dict(torch.load(path + '-head2.pt'))
+        self.encoder = AutoModel.from_pretrained(path + '-encoder')
+    
 class DummyHeadModel(nn.Module):
     def __init__(self, hidden_size=256, num_labels=3):
         super(DummyHeadModel, self).__init__()
@@ -37,6 +46,10 @@ class DummyHeadModel(nn.Module):
             nn.Linear(hidden_size, num_labels),
             nn.Softmax(dim=-1),
         )
+
+    def forward(self, x):
+        x = self.head(x)
+        return x
 
 def reference_reward_loss(reward, pred):
     return - torch.log10(1 + torch.exp(-reward * pred))

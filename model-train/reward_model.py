@@ -42,30 +42,26 @@ def reference_reward_loss(reward, pred):
     return - torch.log10(1 + torch.exp(-reward * pred))
 
 class AMSoftmaxLoss(nn.Module):
-    def __init__(self, embedding_dim, no_classes, scale = 30.0, margin=0.4):
+    def __init__(self, in_features, n_classes, scale=30, margin=0.4):
         super(AMSoftmaxLoss, self).__init__()
+        self.linear = nn.Linear(in_features, n_classes, bias=False)
         self.scale = scale
         self.margin = margin
-        self.embedding_dim = embedding_dim
-        self.no_classes = no_classes
-        self.embedding = nn.Embedding(no_classes, embedding_dim, max_norm=1)
-        self.loss = nn.CrossEntropyLoss()
+        self.cross_entropy = nn.CrossEntropyLoss()
 
-    def forward(self, x, labels):
-        n, m = x.shape        
-        assert n == len(labels)
-        assert m == self.embedding_dim
-        assert torch.min(labels) >= 0
-        assert torch.max(labels) < self.no_classes
+    def forward(self, ouput, target):
+        x_vector = F.normalize(ouput, p=2, dim=-1)
+        self.linear.weight.data = F.normalize(self.linear.weight.data, p=2, dim=-1)
+        logits = self.linear(x_vector)
+        scaled_logits = (logits - self.margin)*self.scale
+        logits = scaled_logits - self._am_logsumexp(logits)
+        loss = self.cross_entropy(logits, target)
+        return loss
 
-        x = F.normalize(x, dim=1)
-        w = self.embedding.weight        
-        cos_theta = torch.matmul(w, x.T).T
-        psi = cos_theta - self.margin
-        
-        onehot = F.one_hot(labels, self.no_classes)
-        logits = self.scale * torch.where(onehot == 1, psi, cos_theta)        
-        loss = self.loss(logits, labels)
-        
-        return loss, logits
+    def _am_logsumexp(self, logits):
+        max_x = torch.max(logits, dim=-1)[0].unsqueeze(-1)
+        term1 = (self.scale * (logits - (max_x + self.margin))).exp()
+        term2 = (self.scale * (logits - max_x)).exp().sum(-1).unsqueeze(-1) \
+                - (self.scale * (logits - max_x)).exp()
+        return self.scale * max_x + (term2 + term1).log()
     

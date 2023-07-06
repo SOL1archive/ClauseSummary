@@ -134,6 +134,7 @@ discord-token.yaml
 .idea/
 *.pdf
 !docs/*.pdf
+data/preprocessed/*
 data/*.pkl
 data/*.pickle
 data/*.json
@@ -141,3 +142,4 @@ data/*.csv
 **/db/db.yaml
 data/result/
 fine-tuning-head.ipynb
+openai-key.yaml

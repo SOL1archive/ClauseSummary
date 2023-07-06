@@ -41,15 +41,31 @@ class DummyHeadModel(nn.Module):
 def reference_reward_loss(reward, pred):
     return - torch.log10(1 + torch.exp(-reward * pred))
 
-class AMSoftmaxLoss:
-    def __init__(self, margin):
+class AMSoftmaxLoss(nn.Module):
+    def __init__(self, embedding_dim, no_classes, scale = 30.0, margin=0.4):
         super(AMSoftmaxLoss, self).__init__()
+        self.scale = scale
         self.margin = margin
+        self.embedding_dim = embedding_dim
+        self.no_classes = no_classes
+        self.embedding = nn.Embedding(no_classes, embedding_dim, max_norm=1)
+        self.loss = nn.CrossEntropyLoss()
 
     def forward(self, x, labels):
-        labels = labels.float()
-        loss = - torch.log(torch.exp(labels * x + self.margin) 
-                           / torch.sum(torch.exp(x + self.margin))
-        )
-        return loss
+        n, m = x.shape        
+        assert n == len(labels)
+        assert m == self.embedding_dim
+        assert torch.min(labels) >= 0
+        assert torch.max(labels) < self.no_classes
+
+        x = F.normalize(x, dim=1)
+        w = self.embedding.weight        
+        cos_theta = torch.matmul(w, x.T).T
+        psi = cos_theta - self.margin
+        
+        onehot = F.one_hot(labels, self.no_classes)
+        logits = self.scale * torch.where(onehot == 1, psi, cos_theta)        
+        loss = self.loss(logits, labels)
+        
+        return loss, logits
     

@@ -29,6 +29,11 @@ def remove_number_special_characters(text:str):
 
     return text
 
+def remove_number_page(text:str):
+    text = re.sub(r"\d+p", "", text)
+
+    return text
+
 if __name__ == "__main__":
     text = "senteeeencccccceeee··············.\n\ndkfahksdglknasdkg.\n\n\n.dalkg\ndlfahadsf.\n안녕.\nㅏ안녕안녕\n\n안녕.\n\n" 
     ret = remove_duplicated_chars(text)

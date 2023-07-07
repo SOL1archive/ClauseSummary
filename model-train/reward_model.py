@@ -40,6 +40,11 @@ class ModelForRewardGeneration(nn.Module):
         x = self.head1(x)
         return x
     
+    def load(self, model_path):
+        self.encoder = AutoModel.from_pretrained(model_path + '-encoder')
+        self.head1.load_state_dict(torch.load(model_path + '-head1.pt'))
+        self.head2.load_state_dict(torch.load(model_path + '-head2.pt'))
+    
 class DummyHeadModel(nn.Module):
     def __init__(self, hidden_size=256, num_labels=3):
         super(DummyHeadModel, self).__init__()

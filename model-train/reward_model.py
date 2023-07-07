@@ -61,16 +61,22 @@ class AMSoftmaxLoss(nn.Module):
         self.scale = scale
         self.margin = margin
         self.cross_entropy = nn.CrossEntropyLoss()
-
-    def forward(self, ouput, target):
-        x_vector = F.normalize(ouput, p=2, dim=-1)
+    
+    def logits_forward(self, output):
+        x_vector = F.normalize(output, p=2, dim=-1)
         self.linear.weight.data = F.normalize(self.linear.weight.data, p=2, dim=-1)
         logits = self.linear(x_vector)
         scaled_logits = (logits - self.margin)*self.scale
+
         logits = scaled_logits - self._am_logsumexp(logits)
+        return logits
+
+    def forward(self, output, target):
+        logits = self.logits_forward(output)
         loss = self.cross_entropy(logits, target)
         return loss
 
+        
     def _am_logsumexp(self, logits):
         max_x = torch.max(logits, dim=-1)[0].unsqueeze(-1)
         term1 = (self.scale * (logits - (max_x + self.margin))).exp()

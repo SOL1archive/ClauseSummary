@@ -17,6 +17,7 @@ def remove_special_characters(text:str):
     text = re.sub(r"△", "", str(text))
     text = re.sub(r"】", "", str(text))
     text = re.sub(r"【", "", str(text))
+    text = re.sub(r"-/d+-", "", str(text))
 
     return text
 

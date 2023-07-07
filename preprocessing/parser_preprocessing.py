@@ -39,7 +39,7 @@ def remove_number_page(text:str):
     return text
 
 if __name__ == "__main__":
-    text = "senteeeencccccceeee··············.\n\ndkfahksdglknasdkg.\n\n\n.dalkg\ndlfahadsf.\n안녕.\nㅏ안녕안녕\n\n안녕.\n\n●●●●●●●●" 
+    text = "senteeeenccccc】】ceeee··【【············.\n\ndkfahksdg△△△△lknasdkg.\n\n\n.dalkg\ndlfahadsf.\n안녕.\nㅏ안녕안녕\n\n안녕.\n\n●●●●●●●●" 
     ret = remove_duplicated_chars(text)
     ret2 = remove_special_characters(text)
     ret3 = remove_new_line_character(text)

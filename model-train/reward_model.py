@@ -8,13 +8,20 @@ class ModelForRewardGeneration(nn.Module):
         super(ModelForRewardGeneration, self).__init__()
         self.encoder = AutoModel.from_pretrained(encoder_path)
         self.hidden_size = hidden_size
-        # TODO: head 설계
         self.head1 = nn.Sequential(
-            nn.Linear(768, hidden_size * 2, bias=False),
-            nn.BatchNorm1d(hidden_size * 2),
+            nn.Linear(768, 1024, bias=False),
+            nn.BatchNorm1d(1024),
+            nn.GELU(),
+            nn.Dropout1d(0.2),
+            nn.Linear(1024, 1024, bias=False),
+            nn.BatchNorm1d(1024),
+            nn.GELU(),
+            nn.Dropout1d(0.2),
+            nn.Linear(1024, 512, bias=False),
+            nn.BatchNorm1d(512),
             nn.GELU(),
             nn.Dropout1d(0.1),
-            nn.Linear(hidden_size * 2, hidden_size, bias=False),
+            nn.Linear(512, hidden_size, bias=False),
             nn.BatchNorm1d(hidden_size),
             nn.GELU(),
         )
@@ -27,16 +34,11 @@ class ModelForRewardGeneration(nn.Module):
         x = self.head1(x)
         x = self.head2(x)
         return x
-    
+
     def representation_forward(self, input_ids=None, attention_mask=None):
         x = self.encoder(input_ids, attention_mask).pooler_output
         x = self.head1(x)
         return x
-    
-    def load(self, path):
-        self.head1.load_state_dict(torch.load(path + '-head1.pt'))
-        self.head2.load_state_dict(torch.load(path + '-head2.pt'))
-        self.encoder = AutoModel.from_pretrained(path + '-encoder')
     
 class DummyHeadModel(nn.Module):
     def __init__(self, hidden_size=256, num_labels=3):

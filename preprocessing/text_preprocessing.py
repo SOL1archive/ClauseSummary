@@ -1,10 +1,7 @@
 import re
 import pandas as pd
+from parser_preprocessing import remove_duplicated_chars, remove_special_characters, remove_new_line_character
 
-def text_preprocessing_func(text):
-    return re.sub(r'\n[\n ]+', '\n', text)
-
-# ________________________________  새로 추가됨 ____________________________________
 # 목차 제거
 def find_table_of_contents(text: str):
     lines = text.split("\n")
@@ -15,7 +12,7 @@ def find_table_of_contents(text: str):
             r = r+line+"\n"
     return r
     
-def remove_duplicate_chars(text:str, threshold = 5, verbose = False): 
+def remove_duplicate_chars(text: str, threshold=5, verbose=False): 
     exception_lst = (" ", "\n", "·", ".", ",")
     never_duplicate_lst = ("(", ")")
     result = ""
@@ -37,6 +34,13 @@ def remove_duplicate_chars(text:str, threshold = 5, verbose = False):
                     print("중복된 단어들을 삭제합니다.\n")
     return result
 
+def text_preprocessing_func(text):
+    text = re.sub(r'\n[\n ]+', '\n', text)
+    text = find_table_of_contents(text)
+    text = remove_duplicate_chars(text)
+    text = remove_special_characters(text)
+    text = remove_new_line_character(text)
+    return text
 
 if __name__ == '__main__':
     df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')

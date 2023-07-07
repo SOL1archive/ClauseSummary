@@ -17,15 +17,15 @@ def remove_special_characters(text:str):
     return text
 
 def remove_new_line_character(text:str):
-    #text = re.sub(r"\.(?:\n)+", '.', str(text))
-    text = re.sub(r"\.(.*?)(\.\n)", r" ", text)
+    text = re.sub(r"\n+", "", str(text))
+    text = re.sub(r"\.", ".\n", str(text))
 
     return text
 
 if __name__ == "__main__":
-    text = "senteeeencccccceeee··············.\n\ndkfahksdglknasdkg.\n\n\n.dalkg\ndlfahadsf\n." 
+    text = "senteeeencccccceeee··············.\n\ndkfahksdglknasdkg.\n\n\n.dalkg\ndlfahadsf.\n안녕.\nㅏ안녕안녕\n\n안녕.\n\n" 
     ret = remove_duplicated_chars(text)
     ret2 = remove_special_characters(text)
     ret3 = remove_new_line_character(text)
     print(ret3)
-    print(ret2)
+    #print(ret2)

@@ -34,7 +34,7 @@ def remove_number_special_characters(text:str):
     return text
 
 def remove_number_page(text:str):
-    text = re.sub(r"\d+p", "", text)
+    text = re.sub(r"\d+p", "", str(text))
 
     return text
 

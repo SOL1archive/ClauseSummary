@@ -60,7 +60,7 @@ def remove_shit(text: str): # 테스트 안 해봄.
 
 def text_preprocessing_func(text):
     text = re.sub(r'\n[\n ]+', '\n', text)
-    text = find_table_of_contents(text)
+    text = remove_table_of_contents(text)
     text = remove_duplicate_chars(text)
     text = remove_special_characters(text)
     text = remove_new_line_character(text)

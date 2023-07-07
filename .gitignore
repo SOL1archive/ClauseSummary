@@ -143,3 +143,5 @@ data/*.csv
 data/result/
 fine-tuning-head.ipynb
 openai-key.yaml
+model-train/model/
+model-train/data

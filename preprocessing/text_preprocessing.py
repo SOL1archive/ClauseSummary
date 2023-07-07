@@ -3,14 +3,32 @@ import pandas as pd
 from parser_preprocessing import remove_duplicated_chars, remove_special_characters, remove_new_line_character
 
 # 목차 제거
-def find_table_of_contents(text: str):
+# 열쇠글 문자열이 있는 줄은 삭제한다.
+def remove_table_of_contents(text: str, keywords = ("목 차", "목차", "Contents", "contents", "CONTENTS", "table of contents", "Table of Contents", "·····", ".....", "□ "), look_ahead = 5):
     lines = text.split("\n")
     r = ""
+    content_lines = 0
     for line in lines:
-        comma_matches = re.findall(r"·{5,}", line)
-        if len(comma_matches) == 0 and "목 차" not in line and "목차" not in line:
-            r = r+line+"\n"
+        flag = False
+        for keyword in keywords:
+            if keyword in line:
+               flag = True
+               content_lines = look_ahead
+        if not flag:
+            if content_lines > 0:
+                content_lines -= 1
+                if find_table_of_contents_surgical(line, keywords):
+                    content_lines = look_ahead
+                else: r = r+line+"\n"
+            else: r = r+line+"\n"
     return r
+# 삭제하고 난 몇 줄 이내에 특정 패턴이 있는 문자열을 검출한다.
+def find_table_of_contents_surgical(text: str, keywords, patterns = (r"제\d+조\(.+?\)",r"제\d+조\[.+?\]", r"제\d+관\(.+?\)", r"제\d+관 .+?\(.+?\)", r"제_ .+?")):
+    flag = False
+    for pattern in patterns:
+        if len(re.findall(pattern, text)) != 0:
+            flag = True
+    return flag
     
 def remove_duplicate_chars(text: str, threshold=5, verbose=False): 
     exception_lst = (" ", "\n", "·", ".", ",")
@@ -33,6 +51,12 @@ def remove_duplicate_chars(text: str, threshold=5, verbose=False):
                 if verbose:
                     print("중복된 단어들을 삭제합니다.\n")
     return result
+
+def remove_shit(text: str): # 테스트 안 해봄.
+    string = """(cid:1245)(cid:2052)(cid:3339) (cid:3303)(cid:2555)(cid:2504)(cid:3311) (cid:2346)(cid:2266)(cid:2628)(cid:1808)(cid:2049)(cid:3319) (cid:11)(cid:1)(cid:34)(cid:42)(cid:40)(cid:1)(cid:2263)(cid:1104) (cid:2439)(cid:1899)(cid:1851)(cid:2978) (cid:2635)(cid:3104)(cid:1394)(cid:2250)(cid:1413) (cid:1234)(cid:1819)(cid:9)(cid:34)(cid:42)(cid:40)(cid:10)(cid:2615) (cid:2488)(cid:1157)(cid:1843) (cid:2230)(cid:1576)(cid:3294)(cid:1495) (cid:1238)(cid:1789)(cid:2021) (cid:2049)(cid:3319)(cid:3365)(cid:2190)"""
+    if string not in text:
+        return text
+    else: return ""
 
 def text_preprocessing_func(text):
     text = re.sub(r'\n[\n ]+', '\n', text)

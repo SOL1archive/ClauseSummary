@@ -73,9 +73,6 @@ def text_preprocessing_func(text):
     return text
 
 if __name__ == '__main__':
-    df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')
-    df['text'] = df['text'].progress_apply(text_preprocessing_func)
-    df['text'].to_json('text_prerpocessing.json', orient='records')
-
-    #print(text, result, sep='\n' + '-'*150 + '\n')
-    
+    df = pd.read_json('./data/dataset-term.json', encoding='utf-8')
+    df['text'] = df['text'].apply(text_preprocessing_func)
+    enumerate(df[['text']].to_json('dataset-term_prerpocessing.json', orient='records'))

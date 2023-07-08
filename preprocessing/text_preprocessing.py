@@ -59,7 +59,7 @@ def remove_shit(text: str): # 테스트 안 해봄.
     else: return ""
 
 def text_preprocessing_func(text):
-    text = re.sub(r'\n[\n ]+', '\n', text)
+    #text = re.sub(r'\n[\n ]+', '\n', text)
     text = remove_table_of_contents(text)
     text = remove_duplicate_chars(text)
     text = remove_special_characters(text)
@@ -71,8 +71,8 @@ def text_preprocessing_func(text):
 
 if __name__ == '__main__':
     df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')
-    text = df['text'][0]
-    result = text_preprocessing_func(text)
+    df['text'] = df['text'].apply(text_preprocessing_func)
+    df['text'].to_json('text_prerpocessing.json', orient='records')
 
-    print(text, result, sep='\n' + '-'*150 + '\n')
+    #print(text, result, sep='\n' + '-'*150 + '\n')
     

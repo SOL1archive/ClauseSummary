@@ -41,15 +41,21 @@ def remove_number_page(text:str):
 
 #숫자뒤에 .이 오는 것을 제거
 def remove_number_point(text:str):
-    text = re.sub(r"(\d+)\.", r"\1", str(text))
+    text = re.sub(r"(\d+)\.", r"\1: ", str(text))
+
+    return text
+
+def text_preprocessing_func(text):
+    text = remove_duplicated_chars(text)
+    text = remove_special_characters(text)
+    text = remove_number_point(text)
+    text = remove_new_line_character(text)
+    text = remove_number_page(text)
 
     return text
 
 if __name__ == "__main__":
-    text = "senteeeenccccc】】ceeee··【【············.\n\ndkfahksdg△△△△lknasdkg.\n\n\n.dalkg\ndlfahadsf.\n안녕.\nㅏ안녕안녕\n\n안녕.\n\n●●●●●●●● 1.\ndsaflklkg\n2.\ndafasfd"
-    ret = remove_duplicated_chars(text)
-    ret2 = remove_special_characters(text)
-    ret3 = remove_number_point(text)
-    ret2 = remove_new_line_character(text)
-    print(ret3)
+    text = "senteeeenccccc】】ceeee··【【············.\n\ndkfahksdg△△△△lknasdkg.\n\n\n.dalkg\ndlfahadsf.\n안녕.\nㅏ안녕안녕\n\n안녕.\n\n●●●●●●●● 1.\ndsaflklkg\n2.\ndafasfd 46p 234123p 4521p 36p"
+    result = text_preprocessing_func(text)
+    print(text, result, sep='\n' + '-'*150 + '\n')
     #print(ret2)

@@ -1,6 +1,9 @@
 import re
+from tqdm import tqdm
 import pandas as pd
 from parser_preprocessing import remove_number_point, remove_duplicated_chars, remove_special_characters, remove_new_line_character, remove_number_special_characters, remove_number_page
+
+tqdm.pandas()
 
 # 목차 제거
 # 열쇠글 문자열이 있는 줄은 삭제한다.
@@ -71,7 +74,7 @@ def text_preprocessing_func(text):
 
 if __name__ == '__main__':
     df = pd.read_json('./data/dataset-term-summary.json', encoding='utf-8')
-    df['text'] = df['text'].apply(text_preprocessing_func)
+    df['text'] = df['text'].progress_apply(text_preprocessing_func)
     df['text'].to_json('text_prerpocessing.json', orient='records')
 
     #print(text, result, sep='\n' + '-'*150 + '\n')

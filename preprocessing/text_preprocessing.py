@@ -1,6 +1,6 @@
 import re
 import pandas as pd
-from parser_preprocessing import remove_duplicated_chars, remove_special_characters, remove_new_line_character, remove_number_special_characters, remove_number_page
+from parser_preprocessing import remove_number_point, remove_duplicated_chars, remove_special_characters, remove_new_line_character, remove_number_special_characters, remove_number_page
 
 # 목차 제거
 # 열쇠글 문자열이 있는 줄은 삭제한다.
@@ -63,6 +63,7 @@ def text_preprocessing_func(text):
     text = remove_table_of_contents(text)
     text = remove_duplicate_chars(text)
     text = remove_special_characters(text)
+    text = remove_number_point(text)
     text = remove_new_line_character(text)
     text = remove_number_special_characters(text)
     text = remove_number_page(text)
